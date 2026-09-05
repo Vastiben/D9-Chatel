@@ -39,20 +39,22 @@ déduplication : une même rencontre ne doit jamais apparaître deux fois dans
 
 5. **Recopier** le contenu exact de `data/matches.json` (identique, pas
    reformulé) dans le bloc `<script type="application/json"
-   id="matches-data">` de `dashboard.html` — c'est la seule copie tolérée
-   des données, nécessaire parce qu'un Artifact est un fichier unique sans
-   accès à un fichier externe.
+   id="matches-data">` de `dashboard.html`, **puis dans `dashboard-v2.html`
+   à l'identique** (`cp dashboard.html dashboard-v2.html`) — deux fichiers
+   tant que le bug de cache décrit dans `README.md` n'est pas réglé.
 
-6. **Republier** `dashboard.html` comme Artifact en passant l'URL déjà
-   enregistrée dans `README.md` (jamais en créer un nouveau).
+6. **Republier les deux fichiers** comme Artifacts, chacun en passant son
+   URL déjà enregistrée dans `README.md` (jamais en créer un nouveau).
 
-7. **Committer et pousser** `data/matches.json` et `dashboard.html` sur
-   `main`, message de commit décrivant les rencontres ajoutées.
+7. **Committer et pousser** `data/matches.json`, `dashboard.html` et
+   `dashboard-v2.html` sur `main`, message de commit décrivant les
+   rencontres ajoutées.
 
 Terminé quand : chaque numéro de match n'apparaît qu'une fois dans
 `data/matches.json`, le total de rencontres correspond au cumul réellement
-vu dans les captures (pas de perte au recoupement des chevauchements), et
-l'URL de l'artifact republié est inchangée.
+vu dans les captures (pas de perte au recoupement des chevauchements),
+`dashboard.html` et `dashboard-v2.html` sont identiques, et les deux URLs
+republiées sont inchangées.
 
 ## Invariants de la page (à ne jamais réintroduire)
 
