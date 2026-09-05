@@ -1,0 +1,630 @@
+<title>Groupe 8 Juniors D-9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700;900&family=Public+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --panel: #fffdfa;
+    --panel-2: #f0ece5;
+    --ink: #1e1a15;
+    --ink-2: #4a4238;
+    --muted: #766c5d;
+    --line: #e3ddd2;
+    --line-strong: #cdc4b5;
+    --accent: #b45f09;
+    --accent-soft: #f6e7d3;
+    --pos: #1c6f47;
+    --neg: #a2402b;
+    --pending: #8a7a5f;
+    --display: "Chivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141310; --panel: #1d1b17; --panel-2: #262320;
+      --ink: #f0ece4; --ink-2: #cdc5b8; --muted: #988e7d;
+      --line: #302c26; --line-strong: #443e35;
+      --accent: #e4933d; --accent-soft: #3b2d1a;
+      --pos: #55b585; --neg: #e0765f; --pending: #b09a76;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141310; --panel: #1d1b17; --panel-2: #262320;
+    --ink: #f0ece4; --ink-2: #cdc5b8; --muted: #988e7d;
+    --line: #302c26; --line-strong: #443e35;
+    --accent: #e4933d; --accent-soft: #3b2d1a;
+    --pos: #55b585; --neg: #e0765f; --pending: #b09a76;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--body); font-size: 16px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 980px; margin: 0 auto; padding: 40px 22px 76px;
+    display: flex; flex-direction: column; gap: 38px;
+  }
+
+  .eyebrow {
+    font-family: var(--display); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
+  }
+
+  header.masthead { display: flex; flex-direction: column; gap: 13px; }
+  header.masthead h1 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(30px, 5.2vw, 46px); line-height: 1.03;
+    letter-spacing: -.025em; margin: 0; text-wrap: balance;
+  }
+  .competition { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-family: var(--display); font-size: 11px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 3px;
+    background: var(--panel-2); color: var(--ink-2); border: 1px solid var(--line);
+  }
+  .snapshot { color: var(--muted); font-size: 14px; max-width: 64ch; margin: 0; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+  }
+  .stat { background: var(--panel); padding: 15px 17px; display: flex; flex-direction: column; gap: 1px; }
+  .stat .n {
+    font-family: var(--display); font-weight: 900; font-size: 25px;
+    font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+  }
+  .stat .k { font-size: 12px; color: var(--muted); }
+
+  section > h2 {
+    font-family: var(--display); font-weight: 700; font-size: 13px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    margin: 0 0 6px; padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  }
+  section > .sub { margin: 0 0 18px; font-size: 14px; color: var(--muted); max-width: 66ch; }
+
+  .tablescroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 680px; }
+  thead th {
+    font-family: var(--display); font-size: 10px; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase; color: var(--muted);
+    text-align: right; padding: 11px 10px; border-bottom: 1px solid var(--line-strong);
+    white-space: nowrap; background: var(--panel);
+  }
+  thead th.left { text-align: left; }
+  tbody td {
+    padding: 9px 10px; border-bottom: 1px solid var(--line);
+    text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  tbody td.left { text-align: left; white-space: normal; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr.self { background: var(--accent-soft); }
+  tbody tr.self td.team { font-weight: 700; color: var(--accent); }
+  tbody tr.veveyse td.team { font-weight: 600; }
+  .rank { color: var(--muted); font-family: var(--display); font-weight: 700; width: 34px; }
+  .pts { font-family: var(--display); font-weight: 900; font-size: 15px; }
+  .thin { color: var(--muted); }
+  .partial { font-size: 11px; color: var(--pending); letter-spacing: .04em; }
+
+  .diffcell { width: 140px; }
+  .diffbar { display: flex; align-items: center; width: 120px; margin-left: auto; }
+  .diffbar .half { flex: 1; display: flex; height: 7px; }
+  .diffbar .half.l { justify-content: flex-end; }
+  .diffbar .axis { width: 1px; background: var(--line-strong); height: 13px; }
+  .diffbar .fill { height: 7px; }
+  .diffbar .fill.p { background: var(--pos); border-radius: 0 3px 3px 0; }
+  .diffbar .fill.n { background: var(--neg); border-radius: 3px 0 0 3px; }
+
+  .daygroup { margin-bottom: 22px; }
+  .daygroup:last-child { margin-bottom: 0; }
+  .dayhead {
+    font-family: var(--display); font-weight: 700; font-size: 12px;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding-bottom: 8px;
+  }
+  .roundhead {
+    font-family: var(--display); font-weight: 900; font-size: 15px;
+    letter-spacing: -.01em; color: var(--ink); margin: 0 0 12px;
+    padding-top: 6px;
+  }
+  .match {
+    border: 1px solid var(--line); border-radius: 4px; background: var(--panel);
+    padding: 13px 15px; margin-bottom: 7px;
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center;
+  }
+  .match.focus { border-color: var(--accent); background: var(--accent-soft); }
+  .match.dim { opacity: .4; }
+  .sides { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .side { display: grid; grid-template-columns: 1fr 30px; align-items: baseline; gap: 12px; }
+  .side .name { font-size: 15px; overflow-wrap: anywhere; }
+  .side.winner .name { font-weight: 600; }
+  .side.loser .name { color: var(--muted); }
+  .side .name .self { color: var(--accent); font-weight: 700; }
+  .side .goals {
+    font-family: var(--display); font-weight: 900; font-size: 19px;
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .side.loser .goals { color: var(--muted); }
+  .side .goals.none { color: var(--line-strong); font-weight: 400; font-size: 15px; }
+  .snum { font-size: 11px; color: var(--muted); letter-spacing: .03em; padding-top: 2px; }
+  .meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; white-space: nowrap; }
+  .chip {
+    font-family: var(--display); font-size: 10px; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px; border: 1px solid currentColor;
+  }
+  .chip.termine { color: var(--pos); }
+  .chip.score_non_saisi { color: var(--pending); }
+  .chip.a_venir { color: var(--accent); }
+  .kick {
+    font-family: var(--display); font-weight: 700; font-size: 15px;
+    font-variant-numeric: tabular-nums; color: var(--ink-2);
+  }
+
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .controls label { font-size: 13px; color: var(--muted); }
+  select {
+    font-family: var(--body); font-size: 14px; color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line-strong); border-radius: 3px; padding: 7px 10px; max-width: 100%;
+  }
+  button.reset {
+    font-family: var(--body); font-size: 14px; color: var(--ink-2); background: transparent;
+    border: 1px solid var(--line-strong); border-radius: 3px; padding: 7px 12px; cursor: pointer;
+  }
+  button.reset:hover { border-color: var(--accent); color: var(--accent); }
+  select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .notes {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px;
+    padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .notes p { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 68ch; }
+  .notes p strong { color: var(--ink); }
+
+  @media (max-width: 560px) {
+    .match { grid-template-columns: 1fr; }
+    .meta { align-items: flex-start; flex-direction: row; gap: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">AFF-FFV Fribourg · Ronde d'automne 2026</div>
+    <h1>Groupe 8, Juniors D-9</h1>
+    <div class="competition">
+      <span class="tag">Stärkeklasse 2</span>
+      <span class="tag">16 équipes</span>
+      <span class="tag" id="tagRounds"></span>
+      <span class="tag" id="tagDates"></span>
+    </div>
+    <p class="snapshot" id="snapshot"></p>
+  </header>
+
+  <div class="stats" id="statStrip"></div>
+
+  <section>
+    <h2>Classement calculé</h2>
+    <p class="sub">
+      Reconstitué à partir des résultats, l'AFF-FFV ne publiant pas de classement en
+      Juniors D-9. Tri&nbsp;: points, puis confrontation directe entre équipes à
+      égalité, puis différence de buts, puis buts marqués.
+    </p>
+    <div class="tablescroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left" colspan="2">Équipe</th>
+            <th>J</th><th>V</th><th>N</th><th>D</th>
+            <th>Buts</th><th>Diff</th>
+            <th class="diffcell"></th>
+            <th>Pts</th>
+          </tr>
+        </thead>
+        <tbody id="standings"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="matchesTitle">Les matchs</h2>
+    <div class="controls">
+      <label for="teamFilter">Filtrer par équipe</label>
+      <select id="teamFilter"><option value="">Toutes les équipes</option></select>
+      <button class="reset" id="resetBtn" type="button">Tout afficher</button>
+    </div>
+    <div id="matchList"></div>
+  </section>
+
+  <section>
+    <h2>Notes méthodologiques</h2>
+    <div class="notes" id="notes"></div>
+  </section>
+
+</div>
+
+<script type="application/json" id="matches-data">
+{
+  "competition": {
+    "association": "AFF-FFV (Association fribourgeoise de football)",
+    "categorie": "Juniors D-9",
+    "classe_de_force": "Stärkeklasse 2",
+    "ronde": "Ronde d'automne 2026",
+    "groupe": "Groupe 8",
+    "equipe_suivie": "Team Veveyse (5014) c",
+    "publie_classement_officiel": false,
+    "source": "Match center et widget officiels de l'AFF-FFV (matchcenter.aff-ffv.ch, widget.football.ch)"
+  },
+  "derniere_maj": "2026-09-05",
+  "matches": [
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165124, "domicile": "FC La Tour/Le Pâquier a", "exterieur": "Team Veveyse (5014) c", "buts_domicile": 2, "buts_exterieur": 4, "statut": "termine" },
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165125, "domicile": "FC Gumefens/Sorens a", "exterieur": "FC Bulle c", "buts_domicile": 1, "buts_exterieur": 0, "statut": "termine" },
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165126, "domicile": "FC Haute-Gruyère a", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 2, "buts_exterieur": 1, "statut": "termine" },
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165127, "domicile": "FC Haute-Gruyère b", "exterieur": "FC Vuadens a", "buts_domicile": 0, "buts_exterieur": 17, "statut": "termine" },
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165128, "domicile": "Team Veveyse (5076) b", "exterieur": "FC Gumefens/Sorens b", "buts_domicile": 3, "buts_exterieur": 3, "statut": "termine" },
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165129, "domicile": "FC Château-d'Oex", "exterieur": "FC La Tour/Le Pâquier b", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
+    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165130, "domicile": "FC Broc b", "exterieur": "FC Riaz a", "buts_domicile": 3, "buts_exterieur": 2, "statut": "termine" },
+    { "journee": 1, "jour": "Lundi 31 août 2026", "numero": 165123, "domicile": "FC Charmey", "exterieur": "Team Veveyse (5008) b", "buts_domicile": 9, "buts_exterieur": 0, "statut": "termine" },
+
+    { "journee": 2, "jour": "Vendredi 4 septembre 2026", "numero": 165131, "domicile": "Team Veveyse (5008) b", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 4, "buts_exterieur": 1, "statut": "termine" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165133, "domicile": "Team Veveyse (5014) c", "exterieur": "FC Gumefens/Sorens a", "buts_domicile": 6, "buts_exterieur": 1, "statut": "termine" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165134, "domicile": "FC Charmey", "exterieur": "FC La Tour/Le Pâquier a", "buts_domicile": null, "buts_exterieur": null, "statut": "score_non_saisi", "heure": "10:00" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165136, "domicile": "FC La Tour/Le Pâquier b", "exterieur": "FC Broc b", "buts_domicile": 1, "buts_exterieur": 2, "statut": "termine" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165137, "domicile": "FC Gumefens/Sorens b", "exterieur": "FC Château-d'Oex", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165138, "domicile": "FC Haute-Gruyère b", "exterieur": "Team Veveyse (5076) b", "buts_domicile": 9, "buts_exterieur": 4, "statut": "termine" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": null, "domicile": "FC Riaz a", "exterieur": "FC Vuadens a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir", "heure": "14:00" },
+    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": null, "domicile": "FC Bulle c", "exterieur": "FC Haute-Gruyère a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir", "heure": "14:30" }
+  ]
+}
+</script>
+
+<script>
+function main() {
+  const data = JSON.parse(document.getElementById("matches-data").textContent);
+  render(data);
+}
+
+function render(data) {
+  const SELF = data.competition.equipe_suivie;
+  const matches = data.matches;
+
+  const STATUS_LABEL = { termine: "Terminé", score_non_saisi: "Score non saisi", a_venir: "À venir" };
+
+  const teams = [...new Set(matches.flatMap(m => [m.domicile, m.exterieur]))].sort((a, b) => a.localeCompare(b, "fr"));
+  const rounds = new Set(matches.map(m => m.journee));
+
+  document.getElementById("tagRounds").textContent =
+    rounds.size === 1 ? "1 journée" : `${rounds.size} journées`;
+
+  const days = [...new Set(matches.map(m => m.jour))];
+  document.getElementById("tagDates").textContent =
+    days.length > 1 ? `${days[0].split(" ").slice(0, 2).join(" ")} – ${days[days.length - 1]}` : days[0];
+
+  const played = matches.filter(m => m.statut === "termine").length;
+  document.getElementById("snapshot").textContent =
+    `Relevé le ${formatDate(data.derniere_maj)} sur le match center de l'AFF-FFV, ` +
+    `pour ${SELF}. ${played} match${played > 1 ? "s" : ""} sur ${matches.length} ${played > 1 ? "ont" : "a"} livré son score.`;
+
+  document.getElementById("matchesTitle").textContent = `Les ${matches.length} matchs`;
+
+  /* --- Classement --- */
+
+  function computeBase() {
+    const base = {};
+    teams.forEach(t => base[t] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 });
+    matches.filter(m => m.statut === "termine").forEach(m => {
+      const h = base[m.domicile], a = base[m.exterieur];
+      h.p++; a.p++;
+      h.gf += m.buts_domicile; h.ga += m.buts_exterieur;
+      a.gf += m.buts_exterieur; a.ga += m.buts_domicile;
+      if (m.buts_domicile > m.buts_exterieur) { h.w++; a.l++; h.pts += 3; }
+      else if (m.buts_domicile < m.buts_exterieur) { a.w++; h.l++; a.pts += 3; }
+      else { h.d++; a.d++; h.pts++; a.pts++; }
+    });
+    Object.values(base).forEach(r => r.diff = r.gf - r.ga);
+    return base;
+  }
+
+  function h2hPoints(team, group) {
+    let pts = 0;
+    matches
+      .filter(m => m.statut === "termine" && group.includes(m.domicile) && group.includes(m.exterieur))
+      .forEach(m => {
+        if (m.domicile === team) {
+          if (m.buts_domicile > m.buts_exterieur) pts += 3;
+          else if (m.buts_domicile === m.buts_exterieur) pts += 1;
+        } else if (m.exterieur === team) {
+          if (m.buts_exterieur > m.buts_domicile) pts += 3;
+          else if (m.buts_domicile === m.buts_exterieur) pts += 1;
+        }
+      });
+    return pts;
+  }
+
+  const base = computeBase();
+
+  function partitionAndSort(group, level) {
+    if (group.length <= 1) return group;
+    let keyFn;
+    if (level === 0) keyFn = t => base[t].pts;
+    else if (level === 1) keyFn = t => h2hPoints(t, group);
+    else if (level === 2) keyFn = t => base[t].diff;
+    else if (level === 3) keyFn = t => base[t].gf;
+    else return [...group].sort((a, b) => a.localeCompare(b, "fr"));
+
+    const withKeys = group.map(t => [t, keyFn(t)]);
+    const uniqueKeys = [...new Set(withKeys.map(([, k]) => k))].sort((a, b) => b - a);
+    const result = [];
+    uniqueKeys.forEach(k => {
+      const subgroup = withKeys.filter(([, kk]) => kk === k).map(([t]) => t);
+      result.push(...partitionAndSort(subgroup, level + 1));
+    });
+    return result;
+  }
+
+  const order = partitionAndSort(teams, 0);
+  const standings = order.map(t => ({ team: t, ...base[t] }));
+  const maxAbsDiff = Math.max(...standings.map(r => Math.abs(r.diff)), 1);
+
+  function diffBar(diff) {
+    const wrap = document.createElement("div");
+    wrap.className = "diffbar";
+    const left = document.createElement("div");
+    left.className = "half l";
+    const axis = document.createElement("div");
+    axis.className = "axis";
+    const right = document.createElement("div");
+    right.className = "half";
+    if (diff < 0) {
+      const f = document.createElement("div");
+      f.className = "fill n";
+      f.style.width = (Math.abs(diff) / maxAbsDiff * 100) + "%";
+      left.appendChild(f);
+    } else if (diff > 0) {
+      const f = document.createElement("div");
+      f.className = "fill p";
+      f.style.width = (diff / maxAbsDiff * 100) + "%";
+      right.appendChild(f);
+    }
+    wrap.append(left, axis, right);
+    return wrap;
+  }
+
+  function renderStandings() {
+    const body = document.getElementById("standings");
+    standings.forEach((r, i) => {
+      const tr = document.createElement("tr");
+      if (r.team === SELF) tr.className = "self";
+      else if (r.team.startsWith("Team Veveyse")) tr.className = "veveyse";
+
+      const rank = document.createElement("td");
+      rank.className = "rank left";
+      rank.textContent = i + 1;
+
+      const team = document.createElement("td");
+      team.className = "left team";
+      team.textContent = r.team;
+      if (r.p === 1) {
+        const flag = document.createElement("span");
+        flag.className = "partial";
+        flag.textContent = "  1 match joué";
+        team.appendChild(flag);
+      } else if (r.p === 0) {
+        const flag = document.createElement("span");
+        flag.className = "partial";
+        flag.textContent = "  aucun match joué";
+        team.appendChild(flag);
+      }
+
+      const cells = [r.p, r.w, r.d, r.l, `${r.gf}:${r.ga}`, (r.diff > 0 ? "+" : "") + r.diff];
+
+      tr.append(rank, team);
+      cells.forEach((v, idx) => {
+        const td = document.createElement("td");
+        td.textContent = v;
+        if (idx < 4) td.className = "thin";
+        tr.appendChild(td);
+      });
+
+      const bar = document.createElement("td");
+      bar.className = "diffcell";
+      bar.appendChild(diffBar(r.diff));
+      tr.appendChild(bar);
+
+      const pts = document.createElement("td");
+      pts.className = "pts";
+      pts.textContent = r.pts;
+      tr.appendChild(pts);
+
+      body.appendChild(tr);
+    });
+  }
+
+  function renderStats() {
+    const goals = matches.filter(m => m.statut === "termine").reduce((s, m) => s + m.buts_domicile + m.buts_exterieur, 0);
+    const rank = standings.findIndex(r => r.team === SELF) + 1;
+
+    const items = [
+      [`${rank}e`, "Rang de " + SELF],
+      [`${played}/${matches.length}`, "matchs joués"],
+      [goals, "buts inscrits"],
+      [played ? (goals / played).toFixed(1).replace(".", ",") : "0", "buts par match"],
+    ];
+
+    const strip = document.getElementById("statStrip");
+    items.forEach(([n, k]) => {
+      const cell = document.createElement("div");
+      cell.className = "stat";
+      const nn = document.createElement("span");
+      nn.className = "n";
+      nn.textContent = n;
+      const kk = document.createElement("span");
+      kk.className = "k";
+      kk.textContent = k;
+      cell.append(nn, kk);
+      strip.appendChild(cell);
+    });
+  }
+
+  /* --- Matchs --- */
+
+  function nameNode(team) {
+    const span = document.createElement("span");
+    if (team === SELF) {
+      const s = document.createElement("span");
+      s.className = "self";
+      s.textContent = team;
+      span.appendChild(s);
+    } else {
+      span.textContent = team;
+    }
+    return span;
+  }
+
+  function sideNode(team, goals, other, statut) {
+    const row = document.createElement("div");
+    row.className = "side";
+    if (statut === "termine") {
+      if (goals > other) row.classList.add("winner");
+      else if (goals < other) row.classList.add("loser");
+    }
+    const name = document.createElement("div");
+    name.className = "name";
+    name.appendChild(nameNode(team));
+    const g = document.createElement("div");
+    g.className = "goals";
+    if (goals === null) { g.classList.add("none"); g.textContent = "–"; }
+    else g.textContent = goals;
+    row.append(name, g);
+    return row;
+  }
+
+  function matchNode(m) {
+    const card = document.createElement("article");
+    card.className = "match";
+    card.dataset.home = m.domicile;
+    card.dataset.away = m.exterieur;
+    if (m.domicile === SELF || m.exterieur === SELF) card.classList.add("focus");
+
+    const sides = document.createElement("div");
+    sides.className = "sides";
+    sides.append(
+      sideNode(m.domicile, m.buts_domicile, m.buts_exterieur, m.statut),
+      sideNode(m.exterieur, m.buts_exterieur, m.buts_domicile, m.statut)
+    );
+    if (m.numero) {
+      const num = document.createElement("div");
+      num.className = "snum";
+      num.textContent = "Match n° " + m.numero;
+      sides.appendChild(num);
+    }
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    if (m.heure) {
+      const k = document.createElement("div");
+      k.className = "kick";
+      k.textContent = m.heure;
+      meta.appendChild(k);
+    }
+    const chip = document.createElement("div");
+    chip.className = "chip " + m.statut;
+    chip.textContent = STATUS_LABEL[m.statut];
+    meta.appendChild(chip);
+
+    card.append(sides, meta);
+    return card;
+  }
+
+  function renderMatches() {
+    const list = document.getElementById("matchList");
+    let currentRound = null, currentDay = null, group = null;
+
+    matches.forEach(m => {
+      if (m.journee !== currentRound) {
+        currentRound = m.journee;
+        currentDay = null;
+        const h = document.createElement("p");
+        h.className = "roundhead";
+        h.textContent = "Journée " + m.journee;
+        list.appendChild(h);
+      }
+      if (m.jour !== currentDay) {
+        currentDay = m.jour;
+        group = document.createElement("div");
+        group.className = "daygroup";
+        const head = document.createElement("div");
+        head.className = "dayhead";
+        head.textContent = m.jour;
+        group.appendChild(head);
+        list.appendChild(group);
+      }
+      group.appendChild(matchNode(m));
+    });
+  }
+
+  function renderNotes() {
+    const notes = document.getElementById("notes");
+    const pendingCount = matches.filter(m => m.statut !== "termine").length;
+
+    const paragraphs = [
+      `<strong>Le classement n'est pas officiel.</strong> L'AFF-FFV ne publie volontairement
+       aucun classement en Juniors D-9. Celui-ci est calculé à partir des résultats du match
+       center, avec les mêmes règles de tri qu'un classement officiel.`,
+    ];
+
+    if (pendingCount > 0) {
+      paragraphs.push(
+        `<strong>${pendingCount} match${pendingCount > 1 ? "s" : ""} non comptabilisé${pendingCount > 1 ? "s" : ""}
+         dans le classement</strong> : score non saisi ou match à venir au moment du relevé.`
+      );
+    }
+
+    paragraphs.push(
+      `Source&nbsp;: match center et widget officiels de l'Association fribourgeoise de
+       football, consultés depuis un navigateur. Les numéros de match permettent de
+       retrouver chaque rencontre à la source.`
+    );
+
+    notes.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
+  }
+
+  function applyFilter(team) {
+    document.querySelectorAll(".match").forEach(card => {
+      const hit = !team || card.dataset.home === team || card.dataset.away === team;
+      card.classList.toggle("dim", !hit);
+    });
+  }
+
+  const select = document.getElementById("teamFilter");
+  teams.forEach(t => {
+    const o = document.createElement("option");
+    o.value = t; o.textContent = t;
+    select.appendChild(o);
+  });
+  select.addEventListener("change", e => applyFilter(e.target.value));
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    select.value = "";
+    applyFilter("");
+  });
+
+  renderStandings();
+  renderStats();
+  renderMatches();
+  renderNotes();
+}
+
+function formatDate(iso) {
+  const [y, m, d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+}
+
+main();
+</script>
