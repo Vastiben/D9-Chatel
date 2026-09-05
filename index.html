@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Groupe 8 Juniors D-9</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,6 +191,8 @@
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
+</head>
+<body>
 
 <div class="wrap">
 
@@ -238,41 +245,6 @@
   </section>
 
 </div>
-
-<script type="application/json" id="matches-data">
-{
-  "competition": {
-    "association": "AFF-FFV (Association fribourgeoise de football)",
-    "categorie": "Juniors D-9",
-    "classe_de_force": "Stärkeklasse 2",
-    "ronde": "Ronde d'automne 2026",
-    "groupe": "Groupe 8",
-    "equipe_suivie": "Team Veveyse (5014) c",
-    "publie_classement_officiel": false,
-    "source": "Match center et widget officiels de l'AFF-FFV (matchcenter.aff-ffv.ch, widget.football.ch)"
-  },
-  "derniere_maj": "2026-09-05",
-  "matches": [
-    { "date": "2026-08-29", "heure": null, "numero": 165124, "domicile": "FC La Tour/Le Pâquier a", "exterieur": "Team Veveyse (5014) c", "buts_domicile": 2, "buts_exterieur": 4, "statut": "termine" },
-    { "date": "2026-08-29", "heure": null, "numero": 165125, "domicile": "FC Gumefens/Sorens a", "exterieur": "FC Bulle c", "buts_domicile": 1, "buts_exterieur": 0, "statut": "termine" },
-    { "date": "2026-08-29", "heure": null, "numero": 165126, "domicile": "FC Haute-Gruyère a", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 2, "buts_exterieur": 1, "statut": "termine" },
-    { "date": "2026-08-29", "heure": null, "numero": 165127, "domicile": "FC Haute-Gruyère b", "exterieur": "FC Vuadens a", "buts_domicile": 0, "buts_exterieur": 17, "statut": "termine" },
-    { "date": "2026-08-29", "heure": null, "numero": 165128, "domicile": "Team Veveyse (5076) b", "exterieur": "FC Gumefens/Sorens b", "buts_domicile": 3, "buts_exterieur": 3, "statut": "termine" },
-    { "date": "2026-08-29", "heure": null, "numero": 165129, "domicile": "FC Château-d'Oex", "exterieur": "FC La Tour/Le Pâquier b", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
-    { "date": "2026-08-29", "heure": null, "numero": 165130, "domicile": "FC Broc b", "exterieur": "FC Riaz a", "buts_domicile": 3, "buts_exterieur": 2, "statut": "termine" },
-    { "date": "2026-08-31", "heure": null, "numero": 165123, "domicile": "FC Charmey", "exterieur": "Team Veveyse (5008) b", "buts_domicile": 9, "buts_exterieur": 0, "statut": "termine" },
-
-    { "date": "2026-09-04", "heure": null, "numero": 165131, "domicile": "Team Veveyse (5008) b", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 4, "buts_exterieur": 1, "statut": "termine" },
-    { "date": "2026-09-05", "heure": null, "numero": 165133, "domicile": "Team Veveyse (5014) c", "exterieur": "FC Gumefens/Sorens a", "buts_domicile": 6, "buts_exterieur": 1, "statut": "termine" },
-    { "date": "2026-09-05", "heure": "10:00", "numero": 165134, "domicile": "FC Charmey", "exterieur": "FC La Tour/Le Pâquier a", "buts_domicile": null, "buts_exterieur": null, "statut": "score_non_saisi" },
-    { "date": "2026-09-05", "heure": null, "numero": 165136, "domicile": "FC La Tour/Le Pâquier b", "exterieur": "FC Broc b", "buts_domicile": 1, "buts_exterieur": 2, "statut": "termine" },
-    { "date": "2026-09-05", "heure": null, "numero": 165137, "domicile": "FC Gumefens/Sorens b", "exterieur": "FC Château-d'Oex", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
-    { "date": "2026-09-05", "heure": null, "numero": 165138, "domicile": "FC Haute-Gruyère b", "exterieur": "Team Veveyse (5076) b", "buts_domicile": 9, "buts_exterieur": 4, "statut": "termine" },
-    { "date": "2026-09-05", "heure": "14:00", "numero": null, "domicile": "FC Riaz a", "exterieur": "FC Vuadens a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir" },
-    { "date": "2026-09-05", "heure": "14:30", "numero": null, "domicile": "FC Bulle c", "exterieur": "FC Haute-Gruyère a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir" }
-  ]
-}
-</script>
 
 <script>
 const WEEKDAYS_FR = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -619,6 +591,13 @@ function render(state) {
   renderNotes(matches);
 }
 
-const state = JSON.parse(document.getElementById("matches-data").textContent);
-render(state);
+fetch("data/matches.json", { cache: "no-store" })
+  .then(res => res.json())
+  .then(render)
+  .catch(() => {
+    document.getElementById("snapshot").textContent =
+      "Impossible de charger data/matches.json — vérifie que le fichier existe bien à côté de cette page.";
+  });
 </script>
+</body>
+</html>

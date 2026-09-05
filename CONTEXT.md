@@ -12,7 +12,7 @@ publie pas dans cette catégorie.
   Stärkeklasse 2 (niveau de force 2) des Juniors D-9.
 - **Journée** : un cycle de matchs où chacune des 16 équipes du groupe joue
   une fois (8 rencontres). Les journées ne sont pas numérotées par
-  l'AFF-FFV. `dashboard.html` les déduit automatiquement : toutes les
+  l'AFF-FFV. `index.html` les déduit automatiquement : toutes les
   rencontres sont triées par date (puis heure, puis numéro de match), puis
   découpées en tranches de 8 — la 1ère tranche est la journée 1, etc. Ce
   n'est jamais stocké dans les données, seulement recalculé à l'affichage.
@@ -56,9 +56,11 @@ d'écran elle-même devient inutile — à documenter dans un nouvel ADR le cas
 
 ## Un seul chemin de mise à jour
 
-`dashboard.html` est un fichier statique, sans capacité déclarée : la page
-publiée reste partageable publiquement (voir ADR-0003 — une version avec
-mise à jour automatique intégrée à la page a été construite puis retirée,
-incompatible avec le partage public). `data/matches.json` est la seule
-source de vérité, mise à jour via la skill `mettre-a-jour-classement` dans
-une session Claude Code — voir `README.md`.
+La page est hébergée sur GitHub Pages (ADR-0004), pas sur un Artifact
+Claude : un Artifact partagé publiquement ne peut déclarer aucune capacité
+runtime et reste figé sur une version précise à chaque republication
+(constaté et documenté en ADR-0002/0003 avant d'abandonner cette voie).
+`data/matches.json` est la seule source de vérité ; `index.html` la charge
+par `fetch` à chaque visite. Mise à jour via la skill
+`mettre-a-jour-classement` dans une session Claude Code — voir
+`README.md`.
