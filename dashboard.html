@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700;900&family=Public+Sans:wght@400;500;600&display=swap">
 
-<style>
+<style id="app-style">
   :root {
     --bg: #f5f3ef;
     --panel: #fffdfa;
@@ -139,7 +139,6 @@
     display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center;
   }
   .match.focus { border-color: var(--accent); background: var(--accent-soft); }
-  .match.dim { opacity: .4; }
   .sides { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .side { display: grid; grid-template-columns: 1fr 30px; align-items: baseline; gap: 12px; }
   .side .name { font-size: 15px; overflow-wrap: anywhere; }
@@ -167,25 +166,31 @@
     font-variant-numeric: tabular-nums; color: var(--ink-2);
   }
 
-  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-  .controls label { font-size: 13px; color: var(--muted); }
-  select {
-    font-family: var(--body); font-size: 14px; color: var(--ink); background: var(--panel);
-    border: 1px solid var(--line-strong); border-radius: 3px; padding: 7px 10px; max-width: 100%;
-  }
-  button.reset {
-    font-family: var(--body); font-size: 14px; color: var(--ink-2); background: transparent;
-    border: 1px solid var(--line-strong); border-radius: 3px; padding: 7px 12px; cursor: pointer;
-  }
-  button.reset:hover { border-color: var(--accent); color: var(--accent); }
-  select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
   .notes {
     background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px;
     padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;
   }
   .notes p { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 68ch; }
   .notes p strong { color: var(--ink); }
+
+  .uploader {
+    background: var(--panel); border: 1px dashed var(--line-strong); border-radius: 4px;
+    padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .uploader .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .uploader input[type="file"] {
+    flex: 1 1 260px; font-family: var(--body); font-size: 13px; color: var(--ink-2);
+  }
+  .uploader button {
+    font-family: var(--display); font-weight: 700; font-size: 13px;
+    letter-spacing: .04em; text-transform: uppercase;
+    padding: 9px 18px; border-radius: 3px; border: 1px solid var(--accent);
+    background: var(--accent); color: #fff; cursor: pointer;
+  }
+  .uploader button:disabled { opacity: .45; cursor: not-allowed; }
+  .uploader button:hover:not(:disabled) { filter: brightness(1.08); }
+  .uploaderStatus { margin: 0; font-size: 13px; color: var(--muted); min-height: 1.4em; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   @media (max-width: 560px) {
     .match { grid-template-columns: 1fr; }
@@ -235,12 +240,23 @@
 
   <section>
     <h2 id="matchesTitle">Les matchs</h2>
-    <div class="controls">
-      <label for="teamFilter">Filtrer par équipe</label>
-      <select id="teamFilter"><option value="">Toutes les équipes</option></select>
-      <button class="reset" id="resetBtn" type="button">Tout afficher</button>
-    </div>
     <div id="matchList"></div>
+  </section>
+
+  <section id="uploaderSection" hidden>
+    <h2>Ajouter de nouveaux scores</h2>
+    <p class="sub">
+      Dépose une ou plusieurs captures d'écran du widget ou du match center
+      AFF-FFV — en vrac, chevauchements entre captures inclus. Claude lit les
+      images et met la page à jour ici même.
+    </p>
+    <div class="uploader">
+      <div class="row">
+        <input type="file" id="shotInput" multiple>
+        <button id="updateBtn" type="button" disabled>Mettre à jour</button>
+      </div>
+      <p class="uploaderStatus" id="uploaderStatus" aria-live="polite"></p>
+    </div>
   </section>
 
   <section>
@@ -264,97 +280,104 @@
   },
   "derniere_maj": "2026-09-05",
   "matches": [
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165124, "domicile": "FC La Tour/Le Pâquier a", "exterieur": "Team Veveyse (5014) c", "buts_domicile": 2, "buts_exterieur": 4, "statut": "termine" },
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165125, "domicile": "FC Gumefens/Sorens a", "exterieur": "FC Bulle c", "buts_domicile": 1, "buts_exterieur": 0, "statut": "termine" },
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165126, "domicile": "FC Haute-Gruyère a", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 2, "buts_exterieur": 1, "statut": "termine" },
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165127, "domicile": "FC Haute-Gruyère b", "exterieur": "FC Vuadens a", "buts_domicile": 0, "buts_exterieur": 17, "statut": "termine" },
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165128, "domicile": "Team Veveyse (5076) b", "exterieur": "FC Gumefens/Sorens b", "buts_domicile": 3, "buts_exterieur": 3, "statut": "termine" },
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165129, "domicile": "FC Château-d'Oex", "exterieur": "FC La Tour/Le Pâquier b", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
-    { "journee": 1, "jour": "Samedi 29 août 2026", "numero": 165130, "domicile": "FC Broc b", "exterieur": "FC Riaz a", "buts_domicile": 3, "buts_exterieur": 2, "statut": "termine" },
-    { "journee": 1, "jour": "Lundi 31 août 2026", "numero": 165123, "domicile": "FC Charmey", "exterieur": "Team Veveyse (5008) b", "buts_domicile": 9, "buts_exterieur": 0, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165124, "domicile": "FC La Tour/Le Pâquier a", "exterieur": "Team Veveyse (5014) c", "buts_domicile": 2, "buts_exterieur": 4, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165125, "domicile": "FC Gumefens/Sorens a", "exterieur": "FC Bulle c", "buts_domicile": 1, "buts_exterieur": 0, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165126, "domicile": "FC Haute-Gruyère a", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 2, "buts_exterieur": 1, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165127, "domicile": "FC Haute-Gruyère b", "exterieur": "FC Vuadens a", "buts_domicile": 0, "buts_exterieur": 17, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165128, "domicile": "Team Veveyse (5076) b", "exterieur": "FC Gumefens/Sorens b", "buts_domicile": 3, "buts_exterieur": 3, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165129, "domicile": "FC Château-d'Oex", "exterieur": "FC La Tour/Le Pâquier b", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
+    { "date": "2026-08-29", "heure": null, "numero": 165130, "domicile": "FC Broc b", "exterieur": "FC Riaz a", "buts_domicile": 3, "buts_exterieur": 2, "statut": "termine" },
+    { "date": "2026-08-31", "heure": null, "numero": 165123, "domicile": "FC Charmey", "exterieur": "Team Veveyse (5008) b", "buts_domicile": 9, "buts_exterieur": 0, "statut": "termine" },
 
-    { "journee": 2, "jour": "Vendredi 4 septembre 2026", "numero": 165131, "domicile": "Team Veveyse (5008) b", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 4, "buts_exterieur": 1, "statut": "termine" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165133, "domicile": "Team Veveyse (5014) c", "exterieur": "FC Gumefens/Sorens a", "buts_domicile": 6, "buts_exterieur": 1, "statut": "termine" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165134, "domicile": "FC Charmey", "exterieur": "FC La Tour/Le Pâquier a", "buts_domicile": null, "buts_exterieur": null, "statut": "score_non_saisi", "heure": "10:00" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165136, "domicile": "FC La Tour/Le Pâquier b", "exterieur": "FC Broc b", "buts_domicile": 1, "buts_exterieur": 2, "statut": "termine" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165137, "domicile": "FC Gumefens/Sorens b", "exterieur": "FC Château-d'Oex", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": 165138, "domicile": "FC Haute-Gruyère b", "exterieur": "Team Veveyse (5076) b", "buts_domicile": 9, "buts_exterieur": 4, "statut": "termine" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": null, "domicile": "FC Riaz a", "exterieur": "FC Vuadens a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir", "heure": "14:00" },
-    { "journee": 2, "jour": "Samedi 5 septembre 2026", "numero": null, "domicile": "FC Bulle c", "exterieur": "FC Haute-Gruyère a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir", "heure": "14:30" }
+    { "date": "2026-09-04", "heure": null, "numero": 165131, "domicile": "Team Veveyse (5008) b", "exterieur": "FC St-Georges Attalens b", "buts_domicile": 4, "buts_exterieur": 1, "statut": "termine" },
+    { "date": "2026-09-05", "heure": null, "numero": 165133, "domicile": "Team Veveyse (5014) c", "exterieur": "FC Gumefens/Sorens a", "buts_domicile": 6, "buts_exterieur": 1, "statut": "termine" },
+    { "date": "2026-09-05", "heure": "10:00", "numero": 165134, "domicile": "FC Charmey", "exterieur": "FC La Tour/Le Pâquier a", "buts_domicile": null, "buts_exterieur": null, "statut": "score_non_saisi" },
+    { "date": "2026-09-05", "heure": null, "numero": 165136, "domicile": "FC La Tour/Le Pâquier b", "exterieur": "FC Broc b", "buts_domicile": 1, "buts_exterieur": 2, "statut": "termine" },
+    { "date": "2026-09-05", "heure": null, "numero": 165137, "domicile": "FC Gumefens/Sorens b", "exterieur": "FC Château-d'Oex", "buts_domicile": 2, "buts_exterieur": 2, "statut": "termine" },
+    { "date": "2026-09-05", "heure": null, "numero": 165138, "domicile": "FC Haute-Gruyère b", "exterieur": "Team Veveyse (5076) b", "buts_domicile": 9, "buts_exterieur": 4, "statut": "termine" },
+    { "date": "2026-09-05", "heure": "14:00", "numero": null, "domicile": "FC Riaz a", "exterieur": "FC Vuadens a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir" },
+    { "date": "2026-09-05", "heure": "14:30", "numero": null, "domicile": "FC Bulle c", "exterieur": "FC Haute-Gruyère a", "buts_domicile": null, "buts_exterieur": null, "statut": "a_venir" }
   ]
 }
 </script>
 
-<script>
-function main() {
-  const data = JSON.parse(document.getElementById("matches-data").textContent);
-  render(data);
+<script id="app-script">
+const WEEKDAYS_FR = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+const MONTHS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function dayLabel(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d, 12));
+  return `${cap(WEEKDAYS_FR[dt.getUTCDay()])} ${d} ${MONTHS_FR[m - 1]} ${y}`;
 }
 
-function render(data) {
-  const SELF = data.competition.equipe_suivie;
-  const matches = data.matches;
+function dotDate(iso) {
+  const [y, m, d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+}
 
-  const STATUS_LABEL = { termine: "Terminé", score_non_saisi: "Score non saisi", a_venir: "À venir" };
+function todayIso() {
+  return new Date().toISOString().slice(0, 10);
+}
 
-  const teams = [...new Set(matches.flatMap(m => [m.domicile, m.exterieur]))].sort((a, b) => a.localeCompare(b, "fr"));
-  const rounds = new Set(matches.map(m => m.journee));
+/* --- Regroupement en journées : dérivé des dates, jamais stocké --- */
 
-  document.getElementById("tagRounds").textContent =
-    rounds.size === 1 ? "1 journée" : `${rounds.size} journées`;
+function assignRounds(matches) {
+  matches.sort((a, b) => {
+    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+    const ah = a.heure ?? "00:00", bh = b.heure ?? "00:00";
+    if (ah !== bh) return ah < bh ? -1 : 1;
+    return (a.numero ?? 0) - (b.numero ?? 0);
+  });
+  matches.forEach((m, i) => { m.journee = Math.floor(i / 8) + 1; });
+  return matches;
+}
 
-  const days = [...new Set(matches.map(m => m.jour))];
-  document.getElementById("tagDates").textContent =
-    days.length > 1 ? `${days[0].split(" ").slice(0, 2).join(" ")} – ${days[days.length - 1]}` : days[0];
+/* --- Classement --- */
 
-  const played = matches.filter(m => m.statut === "termine").length;
-  document.getElementById("snapshot").textContent =
-    `Relevé le ${formatDate(data.derniere_maj)} sur le match center de l'AFF-FFV, ` +
-    `pour ${SELF}. ${played} match${played > 1 ? "s" : ""} sur ${matches.length} ${played > 1 ? "ont" : "a"} livré son score.`;
+function computeBase(matches, teams) {
+  const base = {};
+  teams.forEach(t => base[t] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 });
+  matches.filter(m => m.statut === "termine").forEach(m => {
+    const h = base[m.domicile], a = base[m.exterieur];
+    h.p++; a.p++;
+    h.gf += m.buts_domicile; h.ga += m.buts_exterieur;
+    a.gf += m.buts_exterieur; a.ga += m.buts_domicile;
+    if (m.buts_domicile > m.buts_exterieur) { h.w++; a.l++; h.pts += 3; }
+    else if (m.buts_domicile < m.buts_exterieur) { a.w++; h.l++; a.pts += 3; }
+    else { h.d++; a.d++; h.pts++; a.pts++; }
+  });
+  Object.values(base).forEach(r => r.diff = r.gf - r.ga);
+  return base;
+}
 
-  document.getElementById("matchesTitle").textContent = `Les ${matches.length} matchs`;
-
-  /* --- Classement --- */
-
-  function computeBase() {
-    const base = {};
-    teams.forEach(t => base[t] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 });
-    matches.filter(m => m.statut === "termine").forEach(m => {
-      const h = base[m.domicile], a = base[m.exterieur];
-      h.p++; a.p++;
-      h.gf += m.buts_domicile; h.ga += m.buts_exterieur;
-      a.gf += m.buts_exterieur; a.ga += m.buts_domicile;
-      if (m.buts_domicile > m.buts_exterieur) { h.w++; a.l++; h.pts += 3; }
-      else if (m.buts_domicile < m.buts_exterieur) { a.w++; h.l++; a.pts += 3; }
-      else { h.d++; a.d++; h.pts++; a.pts++; }
+function h2hPoints(team, group, matches) {
+  let pts = 0;
+  matches
+    .filter(m => m.statut === "termine" && group.includes(m.domicile) && group.includes(m.exterieur))
+    .forEach(m => {
+      if (m.domicile === team) {
+        if (m.buts_domicile > m.buts_exterieur) pts += 3;
+        else if (m.buts_domicile === m.buts_exterieur) pts += 1;
+      } else if (m.exterieur === team) {
+        if (m.buts_exterieur > m.buts_domicile) pts += 3;
+        else if (m.buts_domicile === m.buts_exterieur) pts += 1;
+      }
     });
-    Object.values(base).forEach(r => r.diff = r.gf - r.ga);
-    return base;
-  }
+  return pts;
+}
 
-  function h2hPoints(team, group) {
-    let pts = 0;
-    matches
-      .filter(m => m.statut === "termine" && group.includes(m.domicile) && group.includes(m.exterieur))
-      .forEach(m => {
-        if (m.domicile === team) {
-          if (m.buts_domicile > m.buts_exterieur) pts += 3;
-          else if (m.buts_domicile === m.buts_exterieur) pts += 1;
-        } else if (m.exterieur === team) {
-          if (m.buts_exterieur > m.buts_domicile) pts += 3;
-          else if (m.buts_domicile === m.buts_exterieur) pts += 1;
-        }
-      });
-    return pts;
-  }
-
-  const base = computeBase();
+function buildStandings(matches) {
+  const teams = [...new Set(matches.flatMap(m => [m.domicile, m.exterieur]))].sort((a, b) => a.localeCompare(b, "fr"));
+  const base = computeBase(matches, teams);
 
   function partitionAndSort(group, level) {
     if (group.length <= 1) return group;
     let keyFn;
     if (level === 0) keyFn = t => base[t].pts;
-    else if (level === 1) keyFn = t => h2hPoints(t, group);
+    else if (level === 1) keyFn = t => h2hPoints(t, group, matches);
     else if (level === 2) keyFn = t => base[t].diff;
     else if (level === 3) keyFn = t => base[t].gf;
     else return [...group].sort((a, b) => a.localeCompare(b, "fr"));
@@ -370,261 +393,436 @@ function render(data) {
   }
 
   const order = partitionAndSort(teams, 0);
-  const standings = order.map(t => ({ team: t, ...base[t] }));
+  return order.map(t => ({ team: t, ...base[t] }));
+}
+
+/* --- Rendu --- */
+
+function diffBar(diff, maxAbsDiff) {
+  const wrap = document.createElement("div");
+  wrap.className = "diffbar";
+  const left = document.createElement("div");
+  left.className = "half l";
+  const axis = document.createElement("div");
+  axis.className = "axis";
+  const right = document.createElement("div");
+  right.className = "half";
+  if (diff < 0) {
+    const f = document.createElement("div");
+    f.className = "fill n";
+    f.style.width = (Math.abs(diff) / maxAbsDiff * 100) + "%";
+    left.appendChild(f);
+  } else if (diff > 0) {
+    const f = document.createElement("div");
+    f.className = "fill p";
+    f.style.width = (diff / maxAbsDiff * 100) + "%";
+    right.appendChild(f);
+  }
+  wrap.append(left, axis, right);
+  return wrap;
+}
+
+function renderStandings(standings, self) {
+  const body = document.getElementById("standings");
+  body.textContent = "";
   const maxAbsDiff = Math.max(...standings.map(r => Math.abs(r.diff)), 1);
 
-  function diffBar(diff) {
-    const wrap = document.createElement("div");
-    wrap.className = "diffbar";
-    const left = document.createElement("div");
-    left.className = "half l";
-    const axis = document.createElement("div");
-    axis.className = "axis";
-    const right = document.createElement("div");
-    right.className = "half";
-    if (diff < 0) {
-      const f = document.createElement("div");
-      f.className = "fill n";
-      f.style.width = (Math.abs(diff) / maxAbsDiff * 100) + "%";
-      left.appendChild(f);
-    } else if (diff > 0) {
-      const f = document.createElement("div");
-      f.className = "fill p";
-      f.style.width = (diff / maxAbsDiff * 100) + "%";
-      right.appendChild(f);
+  standings.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    if (r.team === self) tr.className = "self";
+    else if (r.team.startsWith("Team Veveyse")) tr.className = "veveyse";
+
+    const rank = document.createElement("td");
+    rank.className = "rank left";
+    rank.textContent = i + 1;
+
+    const team = document.createElement("td");
+    team.className = "left team";
+    team.textContent = r.team;
+    if (r.p === 1) {
+      const flag = document.createElement("span");
+      flag.className = "partial";
+      flag.textContent = "  1 match joué";
+      team.appendChild(flag);
+    } else if (r.p === 0) {
+      const flag = document.createElement("span");
+      flag.className = "partial";
+      flag.textContent = "  aucun match joué";
+      team.appendChild(flag);
     }
-    wrap.append(left, axis, right);
-    return wrap;
+
+    const cells = [r.p, r.w, r.d, r.l, `${r.gf}:${r.ga}`, (r.diff > 0 ? "+" : "") + r.diff];
+
+    tr.append(rank, team);
+    cells.forEach((v, idx) => {
+      const td = document.createElement("td");
+      td.textContent = v;
+      if (idx < 4) td.className = "thin";
+      tr.appendChild(td);
+    });
+
+    const bar = document.createElement("td");
+    bar.className = "diffcell";
+    bar.appendChild(diffBar(r.diff, maxAbsDiff));
+    tr.appendChild(bar);
+
+    const pts = document.createElement("td");
+    pts.className = "pts";
+    pts.textContent = r.pts;
+    tr.appendChild(pts);
+
+    body.appendChild(tr);
+  });
+}
+
+function renderStats(matches, standings, self) {
+  const played = matches.filter(m => m.statut === "termine");
+  const goals = played.reduce((s, m) => s + m.buts_domicile + m.buts_exterieur, 0);
+  const rank = standings.findIndex(r => r.team === self) + 1;
+
+  const items = [
+    [`${rank}e`, "Rang de " + self],
+    [`${played.length}/${matches.length}`, "matchs joués"],
+    [goals, "buts inscrits"],
+    [played.length ? (goals / played.length).toFixed(1).replace(".", ",") : "0", "buts par match"],
+  ];
+
+  const strip = document.getElementById("statStrip");
+  strip.textContent = "";
+  items.forEach(([n, k]) => {
+    const cell = document.createElement("div");
+    cell.className = "stat";
+    const nn = document.createElement("span");
+    nn.className = "n";
+    nn.textContent = n;
+    const kk = document.createElement("span");
+    kk.className = "k";
+    kk.textContent = k;
+    cell.append(nn, kk);
+    strip.appendChild(cell);
+  });
+}
+
+function nameNode(team, self) {
+  const span = document.createElement("span");
+  if (team === self) {
+    const s = document.createElement("span");
+    s.className = "self";
+    s.textContent = team;
+    span.appendChild(s);
+  } else {
+    span.textContent = team;
+  }
+  return span;
+}
+
+function sideNode(team, self, goals, other, statut) {
+  const row = document.createElement("div");
+  row.className = "side";
+  if (statut === "termine") {
+    if (goals > other) row.classList.add("winner");
+    else if (goals < other) row.classList.add("loser");
+  }
+  const name = document.createElement("div");
+  name.className = "name";
+  name.appendChild(nameNode(team, self));
+  const g = document.createElement("div");
+  g.className = "goals";
+  if (goals === null) { g.classList.add("none"); g.textContent = "–"; }
+  else g.textContent = goals;
+  row.append(name, g);
+  return row;
+}
+
+const STATUS_LABEL = { termine: "Terminé", score_non_saisi: "Score non saisi", a_venir: "À venir" };
+
+function matchNode(m, self) {
+  const card = document.createElement("article");
+  card.className = "match";
+  if (m.domicile === self || m.exterieur === self) card.classList.add("focus");
+
+  const sides = document.createElement("div");
+  sides.className = "sides";
+  sides.append(
+    sideNode(m.domicile, self, m.buts_domicile, m.buts_exterieur, m.statut),
+    sideNode(m.exterieur, self, m.buts_exterieur, m.buts_domicile, m.statut)
+  );
+  if (m.numero) {
+    const num = document.createElement("div");
+    num.className = "snum";
+    num.textContent = "Match n° " + m.numero;
+    sides.appendChild(num);
   }
 
-  function renderStandings() {
-    const body = document.getElementById("standings");
-    standings.forEach((r, i) => {
-      const tr = document.createElement("tr");
-      if (r.team === SELF) tr.className = "self";
-      else if (r.team.startsWith("Team Veveyse")) tr.className = "veveyse";
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  if (m.heure) {
+    const k = document.createElement("div");
+    k.className = "kick";
+    k.textContent = m.heure;
+    meta.appendChild(k);
+  }
+  const chip = document.createElement("div");
+  chip.className = "chip " + m.statut;
+  chip.textContent = STATUS_LABEL[m.statut];
+  meta.appendChild(chip);
 
-      const rank = document.createElement("td");
-      rank.className = "rank left";
-      rank.textContent = i + 1;
+  card.append(sides, meta);
+  return card;
+}
 
-      const team = document.createElement("td");
-      team.className = "left team";
-      team.textContent = r.team;
-      if (r.p === 1) {
-        const flag = document.createElement("span");
-        flag.className = "partial";
-        flag.textContent = "  1 match joué";
-        team.appendChild(flag);
-      } else if (r.p === 0) {
-        const flag = document.createElement("span");
-        flag.className = "partial";
-        flag.textContent = "  aucun match joué";
-        team.appendChild(flag);
-      }
+function renderMatches(matches, self) {
+  const list = document.getElementById("matchList");
+  list.textContent = "";
+  let currentRound = null, currentDate = null, group = null;
 
-      const cells = [r.p, r.w, r.d, r.l, `${r.gf}:${r.ga}`, (r.diff > 0 ? "+" : "") + r.diff];
+  matches.forEach(m => {
+    if (m.journee !== currentRound) {
+      currentRound = m.journee;
+      currentDate = null;
+      const h = document.createElement("p");
+      h.className = "roundhead";
+      h.textContent = "Journée " + m.journee;
+      list.appendChild(h);
+    }
+    if (m.date !== currentDate) {
+      currentDate = m.date;
+      group = document.createElement("div");
+      group.className = "daygroup";
+      const head = document.createElement("div");
+      head.className = "dayhead";
+      head.textContent = dayLabel(m.date);
+      group.appendChild(head);
+      list.appendChild(group);
+    }
+    group.appendChild(matchNode(m, self));
+  });
+}
 
-      tr.append(rank, team);
-      cells.forEach((v, idx) => {
-        const td = document.createElement("td");
-        td.textContent = v;
-        if (idx < 4) td.className = "thin";
-        tr.appendChild(td);
+function renderNotes(matches) {
+  const notes = document.getElementById("notes");
+  const pendingCount = matches.filter(m => m.statut !== "termine").length;
+
+  const paragraphs = [
+    `<strong>Le classement n'est pas officiel.</strong> L'AFF-FFV ne publie volontairement
+     aucun classement en Juniors D-9. Celui-ci est calculé à partir des résultats du match
+     center, avec les mêmes règles de tri qu'un classement officiel.`,
+  ];
+
+  if (pendingCount > 0) {
+    paragraphs.push(
+      `<strong>${pendingCount} match${pendingCount > 1 ? "s" : ""} non comptabilisé${pendingCount > 1 ? "s" : ""}
+       dans le classement</strong> : score non saisi ou match à venir au moment du relevé.`
+    );
+  }
+
+  paragraphs.push(
+    `Source&nbsp;: match center et widget officiels de l'Association fribourgeoise de
+     football. Les numéros de match permettent de retrouver chaque rencontre à la source.`
+  );
+
+  notes.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
+}
+
+function render(state) {
+  const self = state.competition.equipe_suivie;
+  const matches = state.matches;
+  assignRounds(matches);
+
+  const rounds = new Set(matches.map(m => m.journee));
+  document.getElementById("tagRounds").textContent = rounds.size === 1 ? "1 journée" : `${rounds.size} journées`;
+
+  const dates = matches.map(m => m.date).sort();
+  document.getElementById("tagDates").textContent =
+    dates[0] === dates[dates.length - 1] ? dayLabel(dates[0]) : `${dotDate(dates[0])} – ${dotDate(dates[dates.length - 1])}`;
+
+  const played = matches.filter(m => m.statut === "termine").length;
+  document.getElementById("snapshot").textContent =
+    `Relevé le ${dotDate(state.derniere_maj)} sur le match center de l'AFF-FFV, pour ${self}. ` +
+    `${played} match${played > 1 ? "s" : ""} sur ${matches.length} ${played > 1 ? "ont" : "a"} livré son score.`;
+
+  document.getElementById("matchesTitle").textContent = `Les ${matches.length} matchs`;
+
+  const standings = buildStandings(matches);
+  renderStandings(standings, self);
+  renderStats(matches, standings, self);
+  renderMatches(matches, self);
+  renderNotes(matches);
+}
+
+/* --- Fusion des rencontres extraites d'une capture --- */
+
+function sanitizeExtracted(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const date = typeof raw.date === "string" && /^\d{4}-\d{2}-\d{2}/.test(raw.date) ? raw.date.slice(0, 10) : null;
+  const domicile = typeof raw.domicile === "string" ? raw.domicile.trim() : null;
+  const exterieur = typeof raw.exterieur === "string" ? raw.exterieur.trim() : null;
+  if (!date || !domicile || !exterieur) return null;
+
+  const numero = Number.isInteger(raw.numero) ? raw.numero
+    : (typeof raw.numero === "string" && /^\d+$/.test(raw.numero) ? parseInt(raw.numero, 10) : null);
+  const heure = typeof raw.heure === "string" && /^\d{1,2}:\d{2}$/.test(raw.heure) ? raw.heure : null;
+  const bd = Number.isInteger(raw.buts_domicile) ? raw.buts_domicile : null;
+  const be = Number.isInteger(raw.buts_exterieur) ? raw.buts_exterieur : null;
+
+  return { date, domicile, exterieur, numero, heure, buts_domicile: bd, buts_exterieur: be };
+}
+
+function upsertMatch(matches, item) {
+  let idx = -1;
+  if (item.numero != null) idx = matches.findIndex(m => m.numero === item.numero);
+  if (idx < 0) idx = matches.findIndex(m => m.date === item.date && m.domicile === item.domicile && m.exterieur === item.exterieur);
+
+  const statut = (item.buts_domicile != null && item.buts_exterieur != null) ? "termine" : "a_venir";
+  const merged = {
+    date: item.date,
+    heure: item.heure,
+    numero: item.numero != null ? item.numero : (idx >= 0 ? matches[idx].numero : null),
+    domicile: item.domicile,
+    exterieur: item.exterieur,
+    buts_domicile: item.buts_domicile,
+    buts_exterieur: item.buts_exterieur,
+    statut,
+  };
+
+  if (idx >= 0) { matches[idx] = { ...matches[idx], ...merged }; return "updated"; }
+  matches.push(merged);
+  return "added";
+}
+
+function buildExtractionPrompt() {
+  return `Tu regardes une ou plusieurs captures d'écran du calendrier du Groupe 8 (Juniors D-9, AFF-FFV, Suisse), affichées par le widget officiel de football.ch. Certaines captures peuvent se chevaucher (le bas de l'une est le haut de la suivante) : dans ce cas, ne renvoie chaque rencontre qu'UNE SEULE FOIS.
+
+Pour CHAQUE rencontre du Groupe 8 visible dans les images, donne un objet avec exactement ces champs :
+- "date" : la date de la rencontre au format ISO "AAAA-MM-JJ" (saison en cours : 2026).
+- "heure" : l'heure de coup d'envoi affichée, format "HH:MM", ou null si aucune heure n'est affichée.
+- "numero" : le numéro de match affiché ("Spielnummer"), en entier, ou null si absent.
+- "domicile" : le nom de l'équipe à domicile, EXACTEMENT comme écrit à l'image (accents, espaces, suffixes a/b/c, parenthèses compris).
+- "exterieur" : le nom de l'équipe à l'extérieur, même règle.
+- "buts_domicile" : le score à domicile (entier), ou null si aucun score n'est affiché.
+- "buts_exterieur" : le score à l'extérieur (entier), ou null si aucun score n'est affiché.
+
+Ignore tout ce qui n'est pas une rencontre du Groupe 8 (barre d'état du téléphone, autre groupe, publicité, boutons).
+
+Réponds uniquement avec un tableau JSON de ces objets, sans aucun texte avant ni après.`;
+}
+
+/* --- Reconstruction du document complet pour republication --- */
+
+function buildDocument(state) {
+  const head = [
+    '<meta charset="utf-8">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    document.querySelector("title").outerHTML,
+    ...[...document.querySelectorAll("head link")].map(l => l.outerHTML),
+    document.getElementById("app-style").outerHTML,
+  ].join("\n");
+
+  const wrap = document.querySelector(".wrap").cloneNode(true);
+  ["statStrip", "standings", "matchList", "notes"].forEach(id => {
+    const el = wrap.querySelector("#" + id);
+    if (el) el.innerHTML = "";
+  });
+  ["tagRounds", "tagDates", "snapshot", "matchesTitle"].forEach(id => {
+    const el = wrap.querySelector("#" + id);
+    if (el) el.textContent = "";
+  });
+  const uploaderSection = wrap.querySelector("#uploaderSection");
+  if (uploaderSection) uploaderSection.hidden = true;
+  const uploaderStatus = wrap.querySelector("#uploaderStatus");
+  if (uploaderStatus) uploaderStatus.textContent = "";
+  const shotInput = wrap.querySelector("#shotInput");
+  if (shotInput) shotInput.value = "";
+  const updateBtn = wrap.querySelector("#updateBtn");
+  if (updateBtn) updateBtn.disabled = true;
+
+  const jsonBlock = `<script type="application/json" id="matches-data">\n${JSON.stringify(state, null, 2)}\n<\/script>`;
+  const appScriptBlock = `<script id="app-script">\n${document.getElementById("app-script").textContent}\n<\/script>`;
+
+  return `<!doctype html>\n<html><head>\n${head}\n</head><body>\n${wrap.outerHTML}\n${jsonBlock}\n${appScriptBlock}\n</body></html>`;
+}
+
+/* --- Import depuis une capture d'écran, via la page elle-même --- */
+
+function errorMessage(e, section) {
+  const hideCodes = ["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"];
+  if (hideCodes.includes(e?.code)) { section.hidden = true; return ""; }
+  switch (e?.code) {
+    case "images_unavailable": return "Cette vue ne permet pas d'envoyer d'images ici.";
+    case "image_rejected": return "Image refusée (format ou taille) — essaie une autre capture.";
+    case "rate_limited": return "Trop de demandes pour l'instant — réessaie dans une minute.";
+    case "session_expired": return "Reconnecte-toi à Claude puis réessaie.";
+    case "invalid_json":
+    case "refused":
+    case "empty_completion":
+      return "Je n'ai pas réussi à lire ces captures — réessaie, avec des images plus nettes si besoin.";
+    case "not_writer": return "Cette page est en lecture seule ici.";
+    case "conflict": return "La page vient d'être mise à jour ailleurs — elle va se recharger.";
+    case "cancelled": return "";
+    default: return "Échec technique — réessaie dans un instant.";
+  }
+}
+
+async function initUploader(state) {
+  if (typeof claude === "undefined") return;
+  const section = document.getElementById("uploaderSection");
+  const sample = await claude.use("sample").catch(() => null);
+  const artifactCap = await claude.use("artifact").catch(() => null);
+  if (!sample || !artifactCap) return;
+
+  const caps = await sample.limits().catch(() => null);
+  if (!caps?.images) return;
+
+  section.hidden = false;
+  const input = document.getElementById("shotInput");
+  const btn = document.getElementById("updateBtn");
+  const status = document.getElementById("uploaderStatus");
+  input.accept = caps.images.mediaTypes.join(",");
+
+  input.addEventListener("change", () => { btn.disabled = input.files.length === 0; });
+
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    status.textContent = "Lecture des captures en cours…";
+    try {
+      const extracted = await sample.json(buildExtractionPrompt(), {
+        images: input.files,
+        modelTier: "default",
+        cache: false,
+      });
+      if (!Array.isArray(extracted)) throw { code: "invalid_json" };
+
+      let added = 0, updated = 0;
+      extracted.forEach(raw => {
+        const item = sanitizeExtracted(raw);
+        if (!item) return;
+        const outcome = upsertMatch(state.matches, item);
+        if (outcome === "added") added++; else updated++;
       });
 
-      const bar = document.createElement("td");
-      bar.className = "diffcell";
-      bar.appendChild(diffBar(r.diff));
-      tr.appendChild(bar);
-
-      const pts = document.createElement("td");
-      pts.className = "pts";
-      pts.textContent = r.pts;
-      tr.appendChild(pts);
-
-      body.appendChild(tr);
-    });
-  }
-
-  function renderStats() {
-    const goals = matches.filter(m => m.statut === "termine").reduce((s, m) => s + m.buts_domicile + m.buts_exterieur, 0);
-    const rank = standings.findIndex(r => r.team === SELF) + 1;
-
-    const items = [
-      [`${rank}e`, "Rang de " + SELF],
-      [`${played}/${matches.length}`, "matchs joués"],
-      [goals, "buts inscrits"],
-      [played ? (goals / played).toFixed(1).replace(".", ",") : "0", "buts par match"],
-    ];
-
-    const strip = document.getElementById("statStrip");
-    items.forEach(([n, k]) => {
-      const cell = document.createElement("div");
-      cell.className = "stat";
-      const nn = document.createElement("span");
-      nn.className = "n";
-      nn.textContent = n;
-      const kk = document.createElement("span");
-      kk.className = "k";
-      kk.textContent = k;
-      cell.append(nn, kk);
-      strip.appendChild(cell);
-    });
-  }
-
-  /* --- Matchs --- */
-
-  function nameNode(team) {
-    const span = document.createElement("span");
-    if (team === SELF) {
-      const s = document.createElement("span");
-      s.className = "self";
-      s.textContent = team;
-      span.appendChild(s);
-    } else {
-      span.textContent = team;
-    }
-    return span;
-  }
-
-  function sideNode(team, goals, other, statut) {
-    const row = document.createElement("div");
-    row.className = "side";
-    if (statut === "termine") {
-      if (goals > other) row.classList.add("winner");
-      else if (goals < other) row.classList.add("loser");
-    }
-    const name = document.createElement("div");
-    name.className = "name";
-    name.appendChild(nameNode(team));
-    const g = document.createElement("div");
-    g.className = "goals";
-    if (goals === null) { g.classList.add("none"); g.textContent = "–"; }
-    else g.textContent = goals;
-    row.append(name, g);
-    return row;
-  }
-
-  function matchNode(m) {
-    const card = document.createElement("article");
-    card.className = "match";
-    card.dataset.home = m.domicile;
-    card.dataset.away = m.exterieur;
-    if (m.domicile === SELF || m.exterieur === SELF) card.classList.add("focus");
-
-    const sides = document.createElement("div");
-    sides.className = "sides";
-    sides.append(
-      sideNode(m.domicile, m.buts_domicile, m.buts_exterieur, m.statut),
-      sideNode(m.exterieur, m.buts_exterieur, m.buts_domicile, m.statut)
-    );
-    if (m.numero) {
-      const num = document.createElement("div");
-      num.className = "snum";
-      num.textContent = "Match n° " + m.numero;
-      sides.appendChild(num);
-    }
-
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    if (m.heure) {
-      const k = document.createElement("div");
-      k.className = "kick";
-      k.textContent = m.heure;
-      meta.appendChild(k);
-    }
-    const chip = document.createElement("div");
-    chip.className = "chip " + m.statut;
-    chip.textContent = STATUS_LABEL[m.statut];
-    meta.appendChild(chip);
-
-    card.append(sides, meta);
-    return card;
-  }
-
-  function renderMatches() {
-    const list = document.getElementById("matchList");
-    let currentRound = null, currentDay = null, group = null;
-
-    matches.forEach(m => {
-      if (m.journee !== currentRound) {
-        currentRound = m.journee;
-        currentDay = null;
-        const h = document.createElement("p");
-        h.className = "roundhead";
-        h.textContent = "Journée " + m.journee;
-        list.appendChild(h);
+      if (added === 0 && updated === 0) {
+        status.textContent = "Aucune rencontre reconnue dans ces images — réessaie avec des captures plus nettes.";
+        btn.disabled = false;
+        return;
       }
-      if (m.jour !== currentDay) {
-        currentDay = m.jour;
-        group = document.createElement("div");
-        group.className = "daygroup";
-        const head = document.createElement("div");
-        head.className = "dayhead";
-        head.textContent = m.jour;
-        group.appendChild(head);
-        list.appendChild(group);
-      }
-      group.appendChild(matchNode(m));
-    });
-  }
 
-  function renderNotes() {
-    const notes = document.getElementById("notes");
-    const pendingCount = matches.filter(m => m.statut !== "termine").length;
+      state.derniere_maj = todayIso();
+      render(state);
 
-    const paragraphs = [
-      `<strong>Le classement n'est pas officiel.</strong> L'AFF-FFV ne publie volontairement
-       aucun classement en Juniors D-9. Celui-ci est calculé à partir des résultats du match
-       center, avec les mêmes règles de tri qu'un classement officiel.`,
-    ];
+      status.textContent = "Publication…";
+      await artifactCap.publish(buildDocument(state));
 
-    if (pendingCount > 0) {
-      paragraphs.push(
-        `<strong>${pendingCount} match${pendingCount > 1 ? "s" : ""} non comptabilisé${pendingCount > 1 ? "s" : ""}
-         dans le classement</strong> : score non saisi ou match à venir au moment du relevé.`
-      );
+      status.textContent = `Mis à jour : ${added} nouvelle${added > 1 ? "s" : ""} rencontre${added > 1 ? "s" : ""}, ${updated} score${updated > 1 ? "s" : ""} complété${updated > 1 ? "s" : ""}.`;
+      input.value = "";
+      btn.disabled = true;
+    } catch (e) {
+      status.textContent = errorMessage(e, section);
+      btn.disabled = false;
     }
-
-    paragraphs.push(
-      `Source&nbsp;: match center et widget officiels de l'Association fribourgeoise de
-       football, consultés depuis un navigateur. Les numéros de match permettent de
-       retrouver chaque rencontre à la source.`
-    );
-
-    notes.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
-  }
-
-  function applyFilter(team) {
-    document.querySelectorAll(".match").forEach(card => {
-      const hit = !team || card.dataset.home === team || card.dataset.away === team;
-      card.classList.toggle("dim", !hit);
-    });
-  }
-
-  const select = document.getElementById("teamFilter");
-  teams.forEach(t => {
-    const o = document.createElement("option");
-    o.value = t; o.textContent = t;
-    select.appendChild(o);
   });
-  select.addEventListener("change", e => applyFilter(e.target.value));
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    select.value = "";
-    applyFilter("");
-  });
-
-  renderStandings();
-  renderStats();
-  renderMatches();
-  renderNotes();
 }
 
-function formatDate(iso) {
-  const [y, m, d] = iso.split("-");
-  return `${d}.${m}.${y}`;
-}
-
-main();
+const state = JSON.parse(document.getElementById("matches-data").textContent);
+render(state);
+initUploader(state);
 </script>

@@ -1,9 +1,14 @@
 ---
 name: mettre-a-jour-classement
-description: Traite des captures d'écran du match center ou du widget AFF-FFV pour le Groupe 8 (Juniors D-9, Team Veveyse 5014 c) et met à jour le dashboard. Se déclenche dès que Bastien envoie une ou plusieurs images du calendrier ou des résultats du groupe — même en vrac, même avec des chevauchements entre captures consécutives.
+description: Traite des captures d'écran du match center ou du widget AFF-FFV pour le Groupe 8 (Juniors D-9, Team Veveyse 5014 c) et met à jour data/matches.json + dashboard.html dans ce repo. Se déclenche quand Bastien envoie des captures dans une SESSION CLAUDE CODE ouverte sur ce repo (pas depuis la page publiée elle-même, qui a son propre chemin de mise à jour — voir ADR-0002). Utile pour un rattrapage en masse, une correction historique, ou une resynchronisation du repo après des mises à jour faites uniquement depuis la page.
 ---
 
 # Mettre à jour le classement du Groupe 8
+
+Depuis une session Claude Code, ce qui suit régénère `data/matches.json` et
+`dashboard.html`. Pour l'usage courant (une capture, à la volée), la page
+publiée le fait elle-même sans passer par ici — voir ADR-0002 et le champ
+« Ajouter de nouveaux scores » de `dashboard.html`.
 
 Chaque capture montre une portion du calendrier du widget officiel, avec des
 chevauchements fréquents entre captures consécutives (le bas de l'une est le
@@ -13,12 +18,12 @@ déduplication : une même rencontre ne doit jamais apparaître deux fois dans
 
 ## Étapes
 
-1. **Extraire** de chaque capture, pour chaque rencontre visible : jour,
-   numéro de match, équipe domicile, équipe extérieur, score si joué, heure
-   si à venir.
+1. **Extraire** de chaque capture, pour chaque rencontre visible : date au
+   format ISO `AAAA-MM-JJ`, numéro de match, équipe domicile, équipe
+   extérieur, score si joué, heure de coup d'envoi si affichée.
 
 2. **Dédupliquer** par numéro de match. Pour une rencontre sans numéro (pas
-   encore commencée), dédupliquer par le triplet (jour, domicile, extérieur)
+   encore commencée), dédupliquer par le triplet (date, domicile, extérieur)
    — si un numéro lui est attribué plus tard, il vient compléter cette même
    entrée, jamais en créer une nouvelle.
 
@@ -26,11 +31,9 @@ déduplication : une même rencontre ne doit jamais apparaître deux fois dans
    - nouvelles rencontres → ajoutées ;
    - rencontres déjà connues dont le score vient d'être saisi → mises à
      jour, `statut` passe à `"termine"`.
-   - Regrouper par `journee` à partir des dates. Une nouvelle journée
-     démarre quand un nouveau cycle de matchs commence pour l'ensemble du
-     groupe (16 équipes → 8 rencontres par journée). Si le rattachement
-     d'une rencontre à une journée est ambiguë, demande à Bastien plutôt que
-     de deviner.
+   - Pas de champ `journee` à assigner : `dashboard.html` le déduit lui-même
+     des dates à l'affichage (tri chronologique, tranches de 8 rencontres —
+     voir CONTEXT.md).
 
 4. Mettre à jour `derniere_maj` à la date du traitement.
 
@@ -44,7 +47,7 @@ déduplication : une même rencontre ne doit jamais apparaître deux fois dans
    enregistrée dans `README.md` (jamais en créer un nouveau).
 
 7. **Committer et pousser** `data/matches.json` et `dashboard.html` sur
-   `main`, message de commit décrivant les journées/rencontres ajoutées.
+   `main`, message de commit décrivant les rencontres ajoutées.
 
 Terminé quand : chaque numéro de match n'apparaît qu'une fois dans
 `data/matches.json`, le total de rencontres correspond au cumul réellement
