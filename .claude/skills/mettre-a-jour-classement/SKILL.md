@@ -1,14 +1,14 @@
 ---
 name: mettre-a-jour-classement
-description: Traite des captures d'écran du match center ou du widget AFF-FFV pour le Groupe 8 (Juniors D-9, Team Veveyse 5014 c) et met à jour data/matches.json + dashboard.html dans ce repo. Se déclenche quand Bastien envoie des captures dans une SESSION CLAUDE CODE ouverte sur ce repo (pas depuis la page publiée elle-même, qui a son propre chemin de mise à jour — voir ADR-0002). Utile pour un rattrapage en masse, une correction historique, ou une resynchronisation du repo après des mises à jour faites uniquement depuis la page.
+description: Traite des captures d'écran du match center ou du widget AFF-FFV pour le Groupe 8 (Juniors D-9, Team Veveyse 5014 c) et met à jour le dashboard. Se déclenche dès que Bastien envoie une ou plusieurs images du calendrier ou des résultats du groupe — même en vrac, même avec des chevauchements entre captures consécutives.
 ---
 
 # Mettre à jour le classement du Groupe 8
 
-Depuis une session Claude Code, ce qui suit régénère `data/matches.json` et
-`dashboard.html`. Pour l'usage courant (une capture, à la volée), la page
-publiée le fait elle-même sans passer par ici — voir ADR-0002 et le champ
-« Ajouter de nouveaux scores » de `dashboard.html`.
+`dashboard.html` est un artifact statique et partagé publiquement : il ne
+se met pas à jour lui-même (voir ADR-0003). C'est cette skill, exécutée
+depuis une session Claude Code, qui régénère `data/matches.json` et
+`dashboard.html` à chaque nouvelle capture.
 
 Chaque capture montre une portion du calendrier du widget officiel, avec des
 chevauchements fréquents entre captures consécutives (le bas de l'une est le

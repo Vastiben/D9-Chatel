@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700;900&family=Public+Sans:wght@400;500;600&display=swap">
 
-<style id="app-style">
+<style>
   :root {
     --bg: #f5f3ef;
     --panel: #fffdfa;
@@ -173,25 +173,6 @@
   .notes p { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 68ch; }
   .notes p strong { color: var(--ink); }
 
-  .uploader {
-    background: var(--panel); border: 1px dashed var(--line-strong); border-radius: 4px;
-    padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;
-  }
-  .uploader .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .uploader input[type="file"] {
-    flex: 1 1 260px; font-family: var(--body); font-size: 13px; color: var(--ink-2);
-  }
-  .uploader button {
-    font-family: var(--display); font-weight: 700; font-size: 13px;
-    letter-spacing: .04em; text-transform: uppercase;
-    padding: 9px 18px; border-radius: 3px; border: 1px solid var(--accent);
-    background: var(--accent); color: #fff; cursor: pointer;
-  }
-  .uploader button:disabled { opacity: .45; cursor: not-allowed; }
-  .uploader button:hover:not(:disabled) { filter: brightness(1.08); }
-  .uploaderStatus { margin: 0; font-size: 13px; color: var(--muted); min-height: 1.4em; }
-  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
   @media (max-width: 560px) {
     .match { grid-template-columns: 1fr; }
     .meta { align-items: flex-start; flex-direction: row; gap: 10px; }
@@ -243,22 +224,6 @@
     <div id="matchList"></div>
   </section>
 
-  <section id="uploaderSection" hidden>
-    <h2>Ajouter de nouveaux scores</h2>
-    <p class="sub">
-      Dépose une ou plusieurs captures d'écran du widget ou du match center
-      AFF-FFV — en vrac, chevauchements entre captures inclus. Claude lit les
-      images et met la page à jour ici même.
-    </p>
-    <div class="uploader">
-      <div class="row">
-        <input type="file" id="shotInput" multiple>
-        <button id="updateBtn" type="button" disabled>Mettre à jour</button>
-      </div>
-      <p class="uploaderStatus" id="uploaderStatus" aria-live="polite"></p>
-    </div>
-  </section>
-
   <section>
     <h2>Notes méthodologiques</h2>
     <div class="notes" id="notes"></div>
@@ -301,7 +266,7 @@
 }
 </script>
 
-<script id="app-script">
+<script>
 const WEEKDAYS_FR = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 const MONTHS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
@@ -316,10 +281,6 @@ function dayLabel(iso) {
 function dotDate(iso) {
   const [y, m, d] = iso.split("-");
   return `${d}.${m}.${y}`;
-}
-
-function todayIso() {
-  return new Date().toISOString().slice(0, 10);
 }
 
 /* --- Regroupement en journées : dérivé des dates, jamais stocké --- */
@@ -650,179 +611,6 @@ function render(state) {
   renderNotes(matches);
 }
 
-/* --- Fusion des rencontres extraites d'une capture --- */
-
-function sanitizeExtracted(raw) {
-  if (!raw || typeof raw !== "object") return null;
-  const date = typeof raw.date === "string" && /^\d{4}-\d{2}-\d{2}/.test(raw.date) ? raw.date.slice(0, 10) : null;
-  const domicile = typeof raw.domicile === "string" ? raw.domicile.trim() : null;
-  const exterieur = typeof raw.exterieur === "string" ? raw.exterieur.trim() : null;
-  if (!date || !domicile || !exterieur) return null;
-
-  const numero = Number.isInteger(raw.numero) ? raw.numero
-    : (typeof raw.numero === "string" && /^\d+$/.test(raw.numero) ? parseInt(raw.numero, 10) : null);
-  const heure = typeof raw.heure === "string" && /^\d{1,2}:\d{2}$/.test(raw.heure) ? raw.heure : null;
-  const bd = Number.isInteger(raw.buts_domicile) ? raw.buts_domicile : null;
-  const be = Number.isInteger(raw.buts_exterieur) ? raw.buts_exterieur : null;
-
-  return { date, domicile, exterieur, numero, heure, buts_domicile: bd, buts_exterieur: be };
-}
-
-function upsertMatch(matches, item) {
-  let idx = -1;
-  if (item.numero != null) idx = matches.findIndex(m => m.numero === item.numero);
-  if (idx < 0) idx = matches.findIndex(m => m.date === item.date && m.domicile === item.domicile && m.exterieur === item.exterieur);
-
-  const statut = (item.buts_domicile != null && item.buts_exterieur != null) ? "termine" : "a_venir";
-  const merged = {
-    date: item.date,
-    heure: item.heure,
-    numero: item.numero != null ? item.numero : (idx >= 0 ? matches[idx].numero : null),
-    domicile: item.domicile,
-    exterieur: item.exterieur,
-    buts_domicile: item.buts_domicile,
-    buts_exterieur: item.buts_exterieur,
-    statut,
-  };
-
-  if (idx >= 0) { matches[idx] = { ...matches[idx], ...merged }; return "updated"; }
-  matches.push(merged);
-  return "added";
-}
-
-function buildExtractionPrompt() {
-  return `Tu regardes une ou plusieurs captures d'écran du calendrier du Groupe 8 (Juniors D-9, AFF-FFV, Suisse), affichées par le widget officiel de football.ch. Certaines captures peuvent se chevaucher (le bas de l'une est le haut de la suivante) : dans ce cas, ne renvoie chaque rencontre qu'UNE SEULE FOIS.
-
-Pour CHAQUE rencontre du Groupe 8 visible dans les images, donne un objet avec exactement ces champs :
-- "date" : la date de la rencontre au format ISO "AAAA-MM-JJ" (saison en cours : 2026).
-- "heure" : l'heure de coup d'envoi affichée, format "HH:MM", ou null si aucune heure n'est affichée.
-- "numero" : le numéro de match affiché ("Spielnummer"), en entier, ou null si absent.
-- "domicile" : le nom de l'équipe à domicile, EXACTEMENT comme écrit à l'image (accents, espaces, suffixes a/b/c, parenthèses compris).
-- "exterieur" : le nom de l'équipe à l'extérieur, même règle.
-- "buts_domicile" : le score à domicile (entier), ou null si aucun score n'est affiché.
-- "buts_exterieur" : le score à l'extérieur (entier), ou null si aucun score n'est affiché.
-
-Ignore tout ce qui n'est pas une rencontre du Groupe 8 (barre d'état du téléphone, autre groupe, publicité, boutons).
-
-Réponds uniquement avec un tableau JSON de ces objets, sans aucun texte avant ni après.`;
-}
-
-/* --- Reconstruction du document complet pour republication --- */
-
-function buildDocument(state) {
-  const head = [
-    '<meta charset="utf-8">',
-    '<meta name="viewport" content="width=device-width, initial-scale=1">',
-    document.querySelector("title").outerHTML,
-    ...[...document.querySelectorAll("head link")].map(l => l.outerHTML),
-    document.getElementById("app-style").outerHTML,
-  ].join("\n");
-
-  const wrap = document.querySelector(".wrap").cloneNode(true);
-  ["statStrip", "standings", "matchList", "notes"].forEach(id => {
-    const el = wrap.querySelector("#" + id);
-    if (el) el.innerHTML = "";
-  });
-  ["tagRounds", "tagDates", "snapshot", "matchesTitle"].forEach(id => {
-    const el = wrap.querySelector("#" + id);
-    if (el) el.textContent = "";
-  });
-  const uploaderSection = wrap.querySelector("#uploaderSection");
-  if (uploaderSection) uploaderSection.hidden = true;
-  const uploaderStatus = wrap.querySelector("#uploaderStatus");
-  if (uploaderStatus) uploaderStatus.textContent = "";
-  const shotInput = wrap.querySelector("#shotInput");
-  if (shotInput) shotInput.value = "";
-  const updateBtn = wrap.querySelector("#updateBtn");
-  if (updateBtn) updateBtn.disabled = true;
-
-  const jsonBlock = `<script type="application/json" id="matches-data">\n${JSON.stringify(state, null, 2)}\n<\/script>`;
-  const appScriptBlock = `<script id="app-script">\n${document.getElementById("app-script").textContent}\n<\/script>`;
-
-  return `<!doctype html>\n<html><head>\n${head}\n</head><body>\n${wrap.outerHTML}\n${jsonBlock}\n${appScriptBlock}\n</body></html>`;
-}
-
-/* --- Import depuis une capture d'écran, via la page elle-même --- */
-
-function errorMessage(e, section) {
-  const hideCodes = ["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"];
-  if (hideCodes.includes(e?.code)) { section.hidden = true; return ""; }
-  switch (e?.code) {
-    case "images_unavailable": return "Cette vue ne permet pas d'envoyer d'images ici.";
-    case "image_rejected": return "Image refusée (format ou taille) — essaie une autre capture.";
-    case "rate_limited": return "Trop de demandes pour l'instant — réessaie dans une minute.";
-    case "session_expired": return "Reconnecte-toi à Claude puis réessaie.";
-    case "invalid_json":
-    case "refused":
-    case "empty_completion":
-      return "Je n'ai pas réussi à lire ces captures — réessaie, avec des images plus nettes si besoin.";
-    case "not_writer": return "Cette page est en lecture seule ici.";
-    case "conflict": return "La page vient d'être mise à jour ailleurs — elle va se recharger.";
-    case "cancelled": return "";
-    default: return "Échec technique — réessaie dans un instant.";
-  }
-}
-
-async function initUploader(state) {
-  if (typeof claude === "undefined") return;
-  const section = document.getElementById("uploaderSection");
-  const sample = await claude.use("sample").catch(() => null);
-  const artifactCap = await claude.use("artifact").catch(() => null);
-  if (!sample || !artifactCap) return;
-
-  const caps = await sample.limits().catch(() => null);
-  if (!caps?.images) return;
-
-  section.hidden = false;
-  const input = document.getElementById("shotInput");
-  const btn = document.getElementById("updateBtn");
-  const status = document.getElementById("uploaderStatus");
-  input.accept = caps.images.mediaTypes.join(",");
-
-  input.addEventListener("change", () => { btn.disabled = input.files.length === 0; });
-
-  btn.addEventListener("click", async () => {
-    btn.disabled = true;
-    status.textContent = "Lecture des captures en cours…";
-    try {
-      const extracted = await sample.json(buildExtractionPrompt(), {
-        images: input.files,
-        modelTier: "default",
-        cache: false,
-      });
-      if (!Array.isArray(extracted)) throw { code: "invalid_json" };
-
-      let added = 0, updated = 0;
-      extracted.forEach(raw => {
-        const item = sanitizeExtracted(raw);
-        if (!item) return;
-        const outcome = upsertMatch(state.matches, item);
-        if (outcome === "added") added++; else updated++;
-      });
-
-      if (added === 0 && updated === 0) {
-        status.textContent = "Aucune rencontre reconnue dans ces images — réessaie avec des captures plus nettes.";
-        btn.disabled = false;
-        return;
-      }
-
-      state.derniere_maj = todayIso();
-      render(state);
-
-      status.textContent = "Publication…";
-      await artifactCap.publish(buildDocument(state));
-
-      status.textContent = `Mis à jour : ${added} nouvelle${added > 1 ? "s" : ""} rencontre${added > 1 ? "s" : ""}, ${updated} score${updated > 1 ? "s" : ""} complété${updated > 1 ? "s" : ""}.`;
-      input.value = "";
-      btn.disabled = true;
-    } catch (e) {
-      status.textContent = errorMessage(e, section);
-      btn.disabled = false;
-    }
-  });
-}
-
 const state = JSON.parse(document.getElementById("matches-data").textContent);
 render(state);
-initUploader(state);
 </script>

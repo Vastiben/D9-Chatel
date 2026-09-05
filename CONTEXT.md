@@ -54,20 +54,11 @@ Si un accès autorisé aux données est un jour obtenu (voir la demande à
 d'écran elle-même devient inutile — à documenter dans un nouvel ADR le cas
 échéant.
 
-## Deux façons de mettre à jour, une source qui peut diverger
+## Un seul chemin de mise à jour
 
-1. **Directement sur la page publiée** (voir ADR-0002) : Bastien dépose
-   une capture dans la section « Ajouter de nouveaux scores » de
-   `dashboard.html`, Claude (capacité `sample`) lit l'image, la page
-   fusionne et republie elle-même (capacité `artifact`) — sans passer par
-   une session Claude Code. C'est le chemin du quotidien.
-2. **Via la skill `mettre-a-jour-classement`**, dans une session Claude
-   Code ouverte sur ce repo : met à jour `data/matches.json`, régénère
-   `dashboard.html`, committe et republie.
-
-Ces deux chemins écrivent le même format de données, mais **pas le même
-exemplaire** : le chemin 1 ne touche que la page publiée en ligne, jamais
-ce repo. Après une série de mises à jour faites uniquement depuis la page,
-`data/matches.json` devient un instantané figé, pas la vérité courante. Si
-ça devient gênant, redemander à Claude de resynchroniser `data/matches.json`
-depuis le contenu actuellement publié.
+`dashboard.html` est un fichier statique, sans capacité déclarée : la page
+publiée reste partageable publiquement (voir ADR-0003 — une version avec
+mise à jour automatique intégrée à la page a été construite puis retirée,
+incompatible avec le partage public). `data/matches.json` est la seule
+source de vérité, mise à jour via la skill `mettre-a-jour-classement` dans
+une session Claude Code — voir `README.md`.

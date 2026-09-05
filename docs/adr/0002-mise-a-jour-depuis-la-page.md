@@ -1,6 +1,8 @@
 # ADR-0002 — Mise à jour du classement directement depuis la page publiée
 
-**Statut** : Acceptée — 2026-09-05
+**Statut** : Remplacée par ADR-0003 — 2026-09-05 (Bastien a préféré garder
+le partage public plutôt que la mise à jour automatique, incompatibles sur
+cet artifact ; le code décrit ci-dessous a été retiré de `dashboard.html`)
 
 ## Contexte
 
