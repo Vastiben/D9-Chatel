@@ -9,7 +9,7 @@
     "publie_classement_officiel": false,
     "source": "Match center et widget officiels de l'AFF-FFV (matchcenter.aff-ffv.ch, widget.football.ch)"
   },
-  "derniere_maj": "2026-09-08",
+  "derniere_maj": "2026-09-12",
   "matches": [
     {
       "date": "2026-08-29",
@@ -174,9 +174,69 @@
     {
       "date": "2026-09-12",
       "heure": "10:00",
-      "numero": null,
+      "numero": 165139,
       "domicile": "FC La Tour/Le Pâquier a",
       "exterieur": "Team Veveyse (5008) b",
+      "buts_domicile": 2,
+      "buts_exterieur": 4,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": "10:00",
+      "numero": 165140,
+      "domicile": "FC Gumefens/Sorens a",
+      "exterieur": "FC Charmey",
+      "buts_domicile": null,
+      "buts_exterieur": null,
+      "statut": "a_venir"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": "10:00",
+      "numero": 165143,
+      "domicile": "Team Veveyse (5076) b",
+      "exterieur": "FC Vuadens a",
+      "buts_domicile": null,
+      "buts_exterieur": null,
+      "statut": "a_venir"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": null,
+      "numero": 165142,
+      "domicile": "FC St-Georges Attalens b",
+      "exterieur": "FC Bulle c",
+      "buts_domicile": 2,
+      "buts_exterieur": 11,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": null,
+      "numero": 165141,
+      "domicile": "FC Haute-Gruyère a",
+      "exterieur": "Team Veveyse (5014) c",
+      "buts_domicile": 3,
+      "buts_exterieur": 3,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": "14:00",
+      "numero": 165146,
+      "domicile": "FC Riaz a",
+      "exterieur": "FC La Tour/Le Pâquier b",
+      "buts_domicile": null,
+      "buts_exterieur": null,
+      "statut": "a_venir"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": "14:00",
+      "numero": null,
+      "domicile": "FC Broc b",
+      "exterieur": "FC Gumefens/Sorens b",
       "buts_domicile": null,
       "buts_exterieur": null,
       "statut": "a_venir"
