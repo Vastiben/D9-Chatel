@@ -9,7 +9,7 @@
     "publie_classement_officiel": false,
     "source": "Match center et widget officiels de l'AFF-FFV (matchcenter.aff-ffv.ch, widget.football.ch)"
   },
-  "derniere_maj": "2026-09-12",
+  "derniere_maj": "2026-09-15",
   "matches": [
     {
       "date": "2026-08-29",
@@ -187,9 +187,9 @@
       "numero": 165140,
       "domicile": "FC Gumefens/Sorens a",
       "exterieur": "FC Charmey",
-      "buts_domicile": null,
-      "buts_exterieur": null,
-      "statut": "a_venir"
+      "buts_domicile": 3,
+      "buts_exterieur": 3,
+      "statut": "termine"
     },
     {
       "date": "2026-09-12",
@@ -197,9 +197,9 @@
       "numero": 165143,
       "domicile": "Team Veveyse (5076) b",
       "exterieur": "FC Vuadens a",
-      "buts_domicile": null,
-      "buts_exterieur": null,
-      "statut": "a_venir"
+      "buts_domicile": 1,
+      "buts_exterieur": 25,
+      "statut": "termine"
     },
     {
       "date": "2026-09-12",
@@ -227,19 +227,39 @@
       "numero": 165146,
       "domicile": "FC Riaz a",
       "exterieur": "FC La Tour/Le Pâquier b",
-      "buts_domicile": null,
-      "buts_exterieur": null,
-      "statut": "a_venir"
+      "buts_domicile": 1,
+      "buts_exterieur": 3,
+      "statut": "termine"
     },
     {
       "date": "2026-09-12",
       "heure": "14:00",
-      "numero": null,
+      "numero": 165145,
       "domicile": "FC Broc b",
       "exterieur": "FC Gumefens/Sorens b",
-      "buts_domicile": null,
-      "buts_exterieur": null,
-      "statut": "a_venir"
+      "buts_domicile": 7,
+      "buts_exterieur": 1,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-12",
+      "heure": null,
+      "numero": 165144,
+      "domicile": "FC Château-d'Oex",
+      "exterieur": "FC Haute-Gruyère b",
+      "buts_domicile": 12,
+      "buts_exterieur": 1,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-14",
+      "heure": null,
+      "numero": 165147,
+      "domicile": "Team Veveyse (5008) b",
+      "exterieur": "FC Bulle c",
+      "buts_domicile": 1,
+      "buts_exterieur": 3,
+      "statut": "termine"
     }
   ]
 }
