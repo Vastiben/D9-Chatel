@@ -41,6 +41,14 @@ déduplication : une même rencontre ne doit jamais apparaître deux fois dans
    commit décrivant les rencontres ajoutées. Rien d'autre à toucher :
    `index.html` ne contient pas les données.
 
+   Si l'environnement impose de développer sur une branche dédiée (ex.
+   Claude Code on the web qui fixe une branche `claude/...`), committer
+   là puis fusionner (fast-forward) cette branche dans `main` et pousser
+   `main` dans la foulée, sans redemander confirmation — c'est `main` qui
+   sert GitHub Pages, donc l'étape ne peut pas s'arrêter à la branche de
+   travail. Cette autorisation vaut spécifiquement pour ce skill (données
+   du dashboard, pas de code) ; elle ne s'étend à aucune autre tâche.
+
 Terminé quand : chaque numéro de match n'apparaît qu'une fois dans
 `data/matches.json`, et le total de rencontres correspond au cumul
 réellement vu dans les captures (pas de perte au recoupement des
