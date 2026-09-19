@@ -327,9 +327,9 @@
       "numero": 165154,
       "domicile": "Team Veveyse (5076) b",
       "exterieur": "FC Château-d'Oex",
-      "buts_domicile": null,
-      "buts_exterieur": null,
-      "statut": "a_venir"
+      "buts_domicile": 2,
+      "buts_exterieur": 8,
+      "statut": "termine"
     }
   ]
 }
