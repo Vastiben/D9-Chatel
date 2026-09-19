@@ -28,7 +28,12 @@ publie pas dans cette catégorie.
   de la fédération. Voir `docs/adr/0001-classement-calcule.md`.
 - **Confrontation directe** : au sein d'un groupe d'équipes à égalité de
   points, les points gagnés uniquement dans les rencontres jouées entre
-  elles (pas l'ensemble de leurs matchs).
+  elles (pas l'ensemble de leurs matchs). Ne s'applique que si toutes les
+  équipes du groupe se sont déjà affrontées entre elles — en cours de
+  ronde, un groupe est souvent incomplet (une équipe pas encore opposée
+  aux autres), et appliquer quand même la confrontation directe la
+  pénaliserait injustement avec un score de 0. Dans ce cas, `index.html`
+  passe directement à la différence de buts pour tout le groupe.
 
 ## Portée
 

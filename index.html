@@ -223,10 +223,10 @@
         <thead>
           <tr>
             <th class="left" colspan="2">Équipe</th>
+            <th>Pts</th>
             <th>J</th><th>V</th><th>N</th><th>D</th>
             <th>Buts</th><th>Diff</th>
             <th class="diffcell"></th>
-            <th>Pts</th>
           </tr>
         </thead>
         <tbody id="standings"></tbody>
@@ -294,6 +294,18 @@ function computeBase(matches, teams) {
   return base;
 }
 
+function allPlayedEachOther(group, matches) {
+  for (let i = 0; i < group.length; i++) {
+    for (let j = i + 1; j < group.length; j++) {
+      const played = matches.some(m => m.statut === "termine" &&
+        ((m.domicile === group[i] && m.exterieur === group[j]) ||
+         (m.domicile === group[j] && m.exterieur === group[i])));
+      if (!played) return false;
+    }
+  }
+  return true;
+}
+
 function h2hPoints(team, group, matches) {
   let pts = 0;
   matches
@@ -318,7 +330,11 @@ function buildStandings(matches) {
     if (group.length <= 1) return group;
     let keyFn;
     if (level === 0) keyFn = t => base[t].pts;
-    else if (level === 1) keyFn = t => h2hPoints(t, group, matches);
+    else if (level === 1) {
+      keyFn = allPlayedEachOther(group, matches)
+        ? t => h2hPoints(t, group, matches)
+        : t => base[t].diff;
+    }
     else if (level === 2) keyFn = t => base[t].diff;
     else if (level === 3) keyFn = t => base[t].gf;
     else return [...group].sort((a, b) => a.localeCompare(b, "fr"));
@@ -394,7 +410,11 @@ function renderStandings(standings, self) {
 
     const cells = [r.p, r.w, r.d, r.l, `${r.gf}:${r.ga}`, (r.diff > 0 ? "+" : "") + r.diff];
 
-    tr.append(rank, team);
+    const pts = document.createElement("td");
+    pts.className = "pts";
+    pts.textContent = r.pts;
+
+    tr.append(rank, team, pts);
     cells.forEach((v, idx) => {
       const td = document.createElement("td");
       td.textContent = v;
@@ -406,11 +426,6 @@ function renderStandings(standings, self) {
     bar.className = "diffcell";
     bar.appendChild(diffBar(r.diff, maxAbsDiff));
     tr.appendChild(bar);
-
-    const pts = document.createElement("td");
-    pts.className = "pts";
-    pts.textContent = r.pts;
-    tr.appendChild(pts);
 
     body.appendChild(tr);
   });
