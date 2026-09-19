@@ -9,7 +9,7 @@
     "publie_classement_officiel": false,
     "source": "Match center et widget officiels de l'AFF-FFV (matchcenter.aff-ffv.ch, widget.football.ch)"
   },
-  "derniere_maj": "2026-09-15",
+  "derniere_maj": "2026-09-19",
   "matches": [
     {
       "date": "2026-08-29",
@@ -260,6 +260,56 @@
       "buts_domicile": 1,
       "buts_exterieur": 3,
       "statut": "termine"
+    },
+    {
+      "date": "2026-09-17",
+      "heure": null,
+      "numero": 165151,
+      "domicile": "FC La Tour/Le Pâquier b",
+      "exterieur": "FC Vuadens a",
+      "buts_domicile": 2,
+      "buts_exterieur": 2,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-18",
+      "heure": null,
+      "numero": 165148,
+      "domicile": "Team Veveyse (5014) c",
+      "exterieur": "FC St-Georges Attalens b",
+      "buts_domicile": 7,
+      "buts_exterieur": 0,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-09-19",
+      "heure": "10:00",
+      "numero": 165149,
+      "domicile": "FC Charmey",
+      "exterieur": "FC Haute-Gruyère a",
+      "buts_domicile": null,
+      "buts_exterieur": null,
+      "statut": "a_venir"
+    },
+    {
+      "date": "2026-09-19",
+      "heure": "10:00",
+      "numero": 165150,
+      "domicile": "FC La Tour/Le Pâquier a",
+      "exterieur": "FC Gumefens/Sorens a",
+      "buts_domicile": null,
+      "buts_exterieur": null,
+      "statut": "a_venir"
+    },
+    {
+      "date": "2026-09-19",
+      "heure": "10:00",
+      "numero": 165152,
+      "domicile": "FC Gumefens/Sorens b",
+      "exterieur": "FC Riaz a",
+      "buts_domicile": null,
+      "buts_exterieur": null,
+      "statut": "a_venir"
     }
   ]
 }
