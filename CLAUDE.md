@@ -1,6 +1,6 @@
 # D9-Chatel
 
-Dashboard du Groupe 8 (Juniors D-9, AFF-FFV, Team Veveyse 5014 c), hébergé
+Dashboard du Groupe 8 (Juniors D-9, AFF-FFV, Team Veveyse (Châtel) c), hébergé
 sur GitHub Pages (ADR-0004). Voir `README.md` pour la structure et
 `CONTEXT.md` pour le vocabulaire du domaine.
 
