@@ -1,7 +1,7 @@
 # D9-Chatel
 
 Calendrier et classement calculé du Groupe 8 (Juniors D-9, AFF-FFV) pour
-Team Veveyse (Châtel) c.
+Team Veveyse (Châtel).
 
 **Dashboard publié** : https://vastiben.github.io/D9-Chatel/
 

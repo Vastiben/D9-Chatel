@@ -1,6 +1,6 @@
 # Contexte — D9-Chatel
 
-Suivi du Groupe 8 (Juniors D-9, AFF-FFV) pour Team Veveyse (Châtel) c :
+Suivi du Groupe 8 (Juniors D-9, AFF-FFV) pour Team Veveyse (Châtel) :
 calendrier, résultats, et un classement calculé puisque la fédération n'en
 publie pas dans cette catégorie.
 
@@ -9,7 +9,7 @@ publie pas dans cette catégorie.
 - **Noms des équipes Team Veveyse** : l'AFF-FFV les affiche avec le
   numéro de club — (5076) b, (5014) c, (5008) b. Dans les données et sur
   la page, on écrit le village : Team Veveyse (Semsales), Team Veveyse
-  (Châtel) c, Team Veveyse (Bossonnens). La conversion se fait à chaque
+  (Châtel), Team Veveyse (Bossonnens). La conversion se fait à chaque
   mise à jour (skill `mettre-a-jour-classement`).
 - **AFF-FFV** : Association fribourgeoise de football, fédération qui gère
   le championnat.

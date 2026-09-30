@@ -1,6 +1,6 @@
 ---
 name: mettre-a-jour-classement
-description: Traite des captures d'écran du match center ou du widget AFF-FFV pour le Groupe 8 (Juniors D-9, Team Veveyse (Châtel) c) et met à jour le dashboard. Se déclenche dès que Bastien envoie une ou plusieurs images du calendrier ou des résultats du groupe — même en vrac, même avec des chevauchements entre captures consécutives.
+description: Traite des captures d'écran du match center ou du widget AFF-FFV pour le Groupe 8 (Juniors D-9, Team Veveyse (Châtel)) et met à jour le dashboard. Se déclenche dès que Bastien envoie une ou plusieurs images du calendrier ou des résultats du groupe — même en vrac, même avec des chevauchements entre captures consécutives.
 ---
 
 # Mettre à jour le classement du Groupe 8
@@ -27,7 +27,7 @@ déduplication : une même rencontre ne doit jamais apparaître deux fois dans
    | Vu sur la capture          | Écrit dans les données     |
    |----------------------------|----------------------------|
    | Team Veveyse (5076) b      | Team Veveyse (Semsales)    |
-   | Team Veveyse (5014) c      | Team Veveyse (Châtel) c    |
+   | Team Veveyse (5014) c      | Team Veveyse (Châtel)      |
    | Team Veveyse (5008) b      | Team Veveyse (Bossonnens)  |
 
    Ne jamais écrire la forme numérotée dans les données : sinon la même
