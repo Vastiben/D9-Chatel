@@ -9,7 +9,7 @@
     "publie_classement_officiel": false,
     "source": "Match center et widget officiels de l'AFF-FFV (matchcenter.aff-ffv.ch, widget.football.ch)"
   },
-  "derniere_maj": "2026-10-02",
+  "derniere_maj": "2026-10-17",
   "matches": [
     {
       "date": "2026-08-29",
@@ -419,6 +419,216 @@
       "exterieur": "FC Vuadens a",
       "buts_domicile": 3,
       "buts_exterieur": 4,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-02",
+      "heure": null,
+      "numero": 165163,
+      "domicile": "Team Veveyse (Bossonnens)",
+      "exterieur": "Team Veveyse (Châtel)",
+      "buts_domicile": 0,
+      "buts_exterieur": 3,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-03",
+      "heure": null,
+      "numero": 165168,
+      "domicile": "FC Haute-Gruyère b",
+      "exterieur": "FC La Tour/Le Pâquier b",
+      "buts_domicile": 2,
+      "buts_exterieur": 5,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-03",
+      "heure": null,
+      "numero": 165167,
+      "domicile": "FC Gumefens/Sorens b",
+      "exterieur": "FC Vuadens a",
+      "buts_domicile": 3,
+      "buts_exterieur": 5,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-03",
+      "heure": null,
+      "numero": 165165,
+      "domicile": "FC La Tour/Le Pâquier a",
+      "exterieur": "FC St-Georges Attalens b",
+      "buts_domicile": 12,
+      "buts_exterieur": 0,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-03",
+      "heure": null,
+      "numero": 165164,
+      "domicile": "FC Bulle c",
+      "exterieur": "FC Charmey",
+      "buts_domicile": 3,
+      "buts_exterieur": 1,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-03",
+      "heure": null,
+      "numero": 165170,
+      "domicile": "FC Château-d'Oex",
+      "exterieur": "FC Broc b",
+      "buts_domicile": 6,
+      "buts_exterieur": 4,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-03",
+      "heure": null,
+      "numero": 165166,
+      "domicile": "FC Gumefens/Sorens a",
+      "exterieur": "FC Haute-Gruyère a",
+      "buts_domicile": 3,
+      "buts_exterieur": 7,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-06",
+      "heure": null,
+      "numero": 165179,
+      "domicile": "FC Charmey",
+      "exterieur": "FC Vuadens a",
+      "buts_domicile": 0,
+      "buts_exterieur": 5,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-07",
+      "heure": null,
+      "numero": 165183,
+      "domicile": "Team Veveyse (Bossonnens)",
+      "exterieur": "FC Haute-Gruyère b",
+      "buts_domicile": 2,
+      "buts_exterieur": 6,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-07",
+      "heure": null,
+      "numero": 165169,
+      "domicile": "Team Veveyse (Semsales)",
+      "exterieur": "FC Riaz a",
+      "buts_domicile": 0,
+      "buts_exterieur": 6,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165178,
+      "domicile": "FC Gumefens/Sorens b",
+      "exterieur": "FC Haute-Gruyère b",
+      "buts_domicile": 3,
+      "buts_exterieur": 9,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165177,
+      "domicile": "FC La Tour/Le Pâquier b",
+      "exterieur": "Team Veveyse (Semsales)",
+      "buts_domicile": 12,
+      "buts_exterieur": 3,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165174,
+      "domicile": "FC Charmey",
+      "exterieur": "Team Veveyse (Châtel)",
+      "buts_domicile": 5,
+      "buts_exterieur": 3,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165172,
+      "domicile": "FC St-Georges Attalens b",
+      "exterieur": "FC Gumefens/Sorens a",
+      "buts_domicile": 1,
+      "buts_exterieur": 15,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165173,
+      "domicile": "FC Bulle c",
+      "exterieur": "FC La Tour/Le Pâquier a",
+      "buts_domicile": 5,
+      "buts_exterieur": 1,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165176,
+      "domicile": "FC Riaz a",
+      "exterieur": "FC Château-d'Oex",
+      "buts_domicile": 5,
+      "buts_exterieur": 4,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-10",
+      "heure": null,
+      "numero": 165171,
+      "domicile": "FC Haute-Gruyère a",
+      "exterieur": "Team Veveyse (Bossonnens)",
+      "buts_domicile": 11,
+      "buts_exterieur": 0,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-17",
+      "heure": null,
+      "numero": 165184,
+      "domicile": "Team Veveyse (Châtel)",
+      "exterieur": "Team Veveyse (Semsales)",
+      "buts_domicile": 11,
+      "buts_exterieur": 2,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-17",
+      "heure": null,
+      "numero": 165181,
+      "domicile": "FC La Tour/Le Pâquier b",
+      "exterieur": "FC Gumefens/Sorens a",
+      "buts_domicile": 5,
+      "buts_exterieur": 3,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-17",
+      "heure": null,
+      "numero": 165180,
+      "domicile": "FC Gumefens/Sorens b",
+      "exterieur": "FC La Tour/Le Pâquier a",
+      "buts_domicile": 3,
+      "buts_exterieur": 4,
+      "statut": "termine"
+    },
+    {
+      "date": "2026-10-17",
+      "heure": null,
+      "numero": 165185,
+      "domicile": "FC Bulle c",
+      "exterieur": "FC Château-d'Oex",
+      "buts_domicile": 3,
+      "buts_exterieur": 0,
       "statut": "termine"
     }
   ]
